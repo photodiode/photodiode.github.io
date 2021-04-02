@@ -24,7 +24,7 @@
 
 	position: fixed;
 	top: var(--margin);
-	right: var(--margin);
+	left: var(--margin);
 	z-index: 200;
 
 	display: none;
@@ -70,6 +70,10 @@ header h1 {
 	line-height: 28px;
 }
 
+header h1 a {
+	text-decoration: none;
+}
+
 header img {
 	height: 32px;
 	
@@ -78,10 +82,8 @@ header img {
 }
 
 header h1 div {
-	text-indent: 40px;
-	
 	color: var(--background-color);
-	text-decoration: none;
+	text-indent: 40px;
 }
 
 section {
