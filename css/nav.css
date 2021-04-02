@@ -128,7 +128,7 @@ footer {
 	border-right: 12px solid var(--main-color); 
 }
 
-@media only screen and (max-width: 640px) {
+@media (max-width: 640px) {
 	/*main {
 		margin: 0;
 		transform: translateX(calc(var(--nav-width) + var(--margin)));
