@@ -33,3 +33,17 @@ main {
 	
 	transition: transform 0.3s;
 }
+
+@media (max-width: 1120px) {
+	main {
+		margin: 0 0 64px calc(var(--nav-width) + var(--margin));
+	}
+}
+
+@media (max-width: 640px) {
+	main {
+		margin: 0 0 64px 0;
+		
+		transform: translateX(calc(var(--nav-width) + var(--margin)));
+	}
+}

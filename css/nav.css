@@ -92,35 +92,6 @@ footer {
 	border-top: 4px solid var(--main-color);
 }
 
-@media only screen and (max-width: 1120px) {
-	main {
-		margin: 0;
-		transform: translateX(calc(var(--nav-width) + var(--margin)));
-	}
-
-	#nav_checkbox {
-		width: 100%;
-		height: 100%;
-	}
-
-	#nav_checkbox:checked {
-		width: 0;
-		height: 0;
-	}
-
-	#nav_checkbox:checked ~ nav {
-		transform: translateX(calc((var(--nav-width) + (var(--margin) * 2)) * -1));
-	}
-
-	#nav_checkbox:checked ~ main {
-		transform: translateX(0px);
-	}
-
-	#nav_button {
-		display: block;
-	}
-}
-
 #arrow {
 	height: 24px;
 	margin-left: 12px;
@@ -155,4 +126,33 @@ footer {
 	border-top: 12px solid transparent;
 	border-bottom: 12px solid transparent; 
 	border-right: 12px solid var(--main-color); 
+}
+
+@media only screen and (max-width: 640px) {
+	/*main {
+		margin: 0;
+		transform: translateX(calc(var(--nav-width) + var(--margin)));
+	}*/
+
+	#nav_checkbox {
+		width: 100%;
+		height: 100%;
+	}
+
+	#nav_checkbox:checked {
+		width: 0;
+		height: 0;
+	}
+
+	#nav_checkbox:checked ~ nav {
+		transform: translateX(calc((var(--nav-width) + (var(--margin) * 2)) * -1));
+	}
+
+	#nav_checkbox:checked ~ main {
+		transform: translateX(0px);
+	}
+
+	#nav_button {
+		display: block;
+	}
 }
