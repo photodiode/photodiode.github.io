@@ -85,7 +85,8 @@ article table td, table th {
 }
 
 article table tbody tr {
-	background-image: url(../gfx/gray.png);
+	background-image: url(../gfx/dot.png);
+	background-size: 4px;
 
 	text-shadow: -1px  1px 0 var(--background-color),
 	              1px  1px 0 var(--background-color),
