@@ -2,6 +2,8 @@
 pre, code {
 	overflow: hidden;
 	
+	background-color: var(--main-color);
+	
 	border: 2px solid var(--main-color);
 	border-radius: var(--radius);
 
@@ -11,8 +13,6 @@ pre, code {
 
 code {
 	padding: 0 4px;
-	
-	background-color: var(--main-color);
 
 	color: var(--background-color);
 	font-family: monospace;
@@ -29,13 +29,17 @@ pre {
 }
 
 pre code {
+	width: 100%;
 	padding: 4px 8px;
+	
+	display: block;
 
 	overflow-x: auto;
 	scrollbar-color: var(--main-color) var(--background-color);
 	scrollbar-width: thin;
 
 	border: none;
+	border-radius: 0;
 	
 	background-color: var(--background-color);
 	
@@ -45,8 +49,6 @@ pre code {
 
 pre .line_numbers {
 	padding: 4px 8px 4px 6px;
-
-	background-color: var(--main-color);
 
 	color: var(--background-color);
 	text-align: right;
