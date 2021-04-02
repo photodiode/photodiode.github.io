@@ -128,11 +128,11 @@ footer {
 	border-right: 12px solid var(--main-color); 
 }
 
-@media (max-width: 640px) {
-	/*main {
-		margin: 0;
+@media only screen and (max-width: 640px) {
+	main {
+		margin: 0 0 64px 0;
 		transform: translateX(calc(var(--nav-width) + var(--margin)));
-	}*/
+	}
 
 	#nav_checkbox {
 		width: 100%;
