@@ -1,0 +1,13 @@
+#!/bin/bash
+
+mal=$(<index.htm)
+
+for i in src/posts/*.md; do
+	[ -f "$i" ] || break
+
+	md=$(markdown -f FENCEDCODE "$i")
+	htm="${mal/<!-- ARTICLE -->/$md}"
+
+	file=$(basename $i)
+	echo "$htm" > post/"${file%.md}.html"
+done
