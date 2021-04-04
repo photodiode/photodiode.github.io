@@ -1,0 +1,23 @@
+
+.mina .symbol {
+	font-weight: bold;
+}
+
+.mina .number {
+	color: var(--highlight-color);
+	font-weight: bold;
+}
+
+.mina .string {
+	color: var(--highlight-color);
+	font-weight: bold;
+}
+
+.mina .comment {
+	background-clip: text;
+	background-image: url(../../gfx/dot.png);
+	background-size: 2px;
+	
+	color: transparent;
+	font-weight: bold;
+}

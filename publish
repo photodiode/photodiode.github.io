@@ -9,5 +9,5 @@ for i in src/posts/*.md; do
 	htm="${mal/<!-- ARTICLE -->/$md}"
 
 	file=$(basename $i)
-	echo "$htm" > post/"${file%.md}.html"
+	echo "$htm" > article/"${file%.md}.html"
 done

@@ -13,13 +13,14 @@
 }
 
 .yellow {
-	--background-color: #ecbe41;
-	--main-color:       #2c3031;
+	--background-color: #eec559;
+	--main-color:       #232f2e;
 }
 
 .yellow2 {
 	--background-color: #ffe294;
 	--main-color:       #384346;
+	--highlight-color:  #a41745;
 }
 
 ::selection {

@@ -42,12 +42,18 @@
 
 nav {
 	width: var(--nav-width);
-	padding: var(--margin);
+	margin: var(--margin);
 	
 	position: fixed;
 	top: 0;
 	z-index: 100;
 	
+	overflow: hidden;
+
+	background-color: var(--background-color);
+
+	border-radius: calc(var(--radius) * 2);
+
 	transition: transform 0.3s;
 }
 
@@ -55,8 +61,6 @@ header {
 	height: 32px;
 	padding: 8px;
 	position: relative;
-	
-	border-radius: calc(var(--radius) * 2) calc(var(--radius) * 2) 0 0;
 
 	background-color: var(--main-color);
 	
@@ -96,10 +100,21 @@ section {
 footer {
 	height: 32px;
 	padding: 8px;
-
-	border-radius: 0 0 calc(var(--radius) * 2) calc(var(--radius) * 2);
+	
+	display: flex;
 
 	background-color: var(--main-color);
+}
+
+footer a img {
+	height: 24px;
+	
+	margin: 4px;
+	
+	display: block;
+	
+	background-color: var(--background-color);
+	mix-blend-mode: lighten;
 }
 
 #arrow {
