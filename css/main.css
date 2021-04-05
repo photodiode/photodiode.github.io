@@ -9,18 +9,20 @@
 	
 	--margin: 16px;
 	
+	--border: 2px;
 	--radius: 4px;
 }
 
 .yellow {
-	--background-color: #eec559;
+	--background-color: #e8c25f;
 	--main-color:       #232f2e;
+	--highlight-color:  #c23e44;
 }
 
 .yellow2 {
-	--background-color: #ffe294;
-	--main-color:       #384346;
-	--highlight-color:  #a41745;
+	--background-color: #eec559;
+	--main-color:       #232f2e;
+	--highlight-color:  #c8383f;
 }
 
 ::selection {

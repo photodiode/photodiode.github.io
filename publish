@@ -2,12 +2,14 @@
 
 mal=$(<index.htm)
 
-for i in src/posts/*.md; do
+for i in src/articles/*.md; do
 	[ -f "$i" ] || break
+	
+	md=$'<time datetime="2021-04-05">2021.04.05</time>\n\n'
+	md+=$(markdown -f FENCEDCODE "$i")
 
-	md=$(markdown -f FENCEDCODE "$i")
 	htm="${mal/<!-- ARTICLE -->/$md}"
 
 	file=$(basename $i)
-	echo "$htm" > article/"${file%.md}.html"
+	echo "$htm" > article/"${file%.md}.htm"
 done

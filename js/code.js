@@ -45,26 +45,7 @@ function matchRegion(src, begin, end) {
 	return 0;
 }
 
-function formatCode(preNode) {
-	
-	const codeNode = preNode.getElementsByTagName('code')[0];
-
-	const code = codeNode.textContent;
-
-	// line numbers
-	let lines = code.split('\n');
-	let lineNumbers = '';
-
-	if (lines[lines.length-1] == '') lines.pop();
-
-	for(let i = 1; i <= lines.length; ++i){
-		lineNumbers += i+'\n';
-	}
-
-	preNode.prepend(newElement('div', {'content': lineNumbers, 'class': 'line_numbers'}));
-	// ----
-
-	// high lighting
+function mina(code) {
 	let output = '';
 	let i = 0;
 
@@ -119,7 +100,32 @@ function formatCode(preNode) {
 		}
 	}
 
-	codeNode.innerHTML = output;
+	return output;
+}
+
+function formatCode(preNode) {
+	
+	const codeNode = preNode.getElementsByTagName('code')[0];
+
+	const code = codeNode.textContent;
+
+	// line numbers
+	let lines = code.split('\n');
+	let lineNumbers = '';
+
+	if (lines[lines.length-1] == '') lines.pop();
+
+	for(let i = 1; i <= lines.length; ++i){
+		lineNumbers += i+'\n';
+	}
+
+	preNode.prepend(newElement('div', {'content': lineNumbers, 'class': 'line_numbers', 'aria-hidden': true}));
+	// ----
+
+	// high lighting
+	if (codeNode.classList.contains('mina')) {
+		codeNode.innerHTML = mina(code);
+	}
 	// ----
 }
 

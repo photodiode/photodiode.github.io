@@ -1,6 +1,28 @@
 
+article {
+	position: relative;
+}
+
+article time {
+	margin: 16px 0;
+	padding: 0 8px;
+
+	position: absolute;
+	top: 0;
+	right: 0;
+	
+	border-radius: var(--radius);
+	background-color: var(--main-color);
+
+	color: var(--background-color);
+	font-size: 12px;
+	font-weight: bold;
+	line-height: 24px;
+}
+
 article h1 {
 	margin: var(--margin) 0;
+	
 	font-size: 32px;
 	line-height: 48px;
 }
@@ -68,10 +90,14 @@ article blockquote p {
 }
 
 article table {
+	max-width: 100%;
 	margin: 0;
 
 	display: inline-block;
-	overflow: hidden;
+
+	overflow-x: auto;
+	scrollbar-color: var(--main-color) var(--background-color);
+	scrollbar-width: thin;
 
 	border-spacing: 0;
 	border-collapse: collapse;
