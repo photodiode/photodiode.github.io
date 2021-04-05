@@ -8,8 +8,8 @@ for i in src/articles/*.md; do
 	md=$'<time datetime="2021-04-05">2021.04.05</time>\n\n'
 	md+=$(markdown -f FENCEDCODE "$i")
 
-	htm="${mal/<!-- ARTICLE -->/$md}"
+	html="${mal/<!-- ARTICLE -->/$md}"
 
 	file=$(basename $i)
-	echo "$htm" > article/"${file%.md}.htm"
+	echo "$html" > article/"${file%.md}.html"
 done
