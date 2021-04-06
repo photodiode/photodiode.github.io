@@ -123,7 +123,8 @@ function formatCode(preNode) {
 	// ----
 
 	// high lighting
-	if (codeNode.classList.contains('mina')) {
+	if (codeNode.classList.contains('language-mina')) {
+		codeNode.classList.add('mina');
 		codeNode.innerHTML = mina(code);
 	}
 	// ----

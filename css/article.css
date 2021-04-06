@@ -46,7 +46,7 @@ article a {
 	color: var(--main-color);
 }
 
-article a:hover {
+article p a:hover {
 	background-color: var(--main-color);
 
 	color: var(--background-color);
@@ -54,7 +54,7 @@ article a:hover {
 	text-decoration: none;
 }
 
-article a:hover::after {
+article p a:hover::after {
 	content: '';
 	
 	width: 100%;

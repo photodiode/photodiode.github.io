@@ -53,3 +53,8 @@ main {
 		margin: 0 0 64px calc(var(--nav-width) + var(--margin));
 	}
 }
+
+main ul {
+	padding: 0;
+	list-style: none;
+}

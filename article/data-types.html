@@ -25,7 +25,7 @@
 			});
 		</script>
 	</head>
-	<body class="gray">
+	<body class="yellow">
 		<label id="nav_button" for="nav_checkbox">❯❮</label>
 		<input type="checkbox" id="nav_checkbox" checked>
 		<nav>
@@ -49,111 +49,94 @@
 		<main>
 <article>
 <time datetime="2021-03-15">2021.03.15</time>
-
 <h1>Data Types</h1>
-
 <h2>Scalar Types</h2>
-
-<p>Scalar types are types that represents a single value</p>
-
+<p>Scalar types are types that <a href="#test">represents</a> a single value</p>
 <h3>Integer, Floating Point and Character Types</h3>
-
 <table>
 <thead>
 <tr>
-<th>                  </th>
-<th> 8-bit </th>
-<th> 16-bit </th>
-<th> 32-bit </th>
-<th> 64-bit </th>
-<th> 128-bit </th>
-<th> Architecture </th>
+<th></th>
+<th>8-bit</th>
+<th>16-bit</th>
+<th>32-bit</th>
+<th>64-bit</th>
+<th>128-bit</th>
+<th>Architecture</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td> Signed Integer   </td>
-<td> <code>i8</code>  </td>
-<td> <code>i16</code>  </td>
-<td> <code>i32</code>  </td>
-<td> <code>i64</code>  </td>
-<td> <code>i128</code>  </td>
-<td> <code>ixx</code>        </td>
+<td>Signed Integer</td>
+<td><code>i8</code></td>
+<td><code>i16</code></td>
+<td><code>i32</code></td>
+<td><code>i64</code></td>
+<td><code>i128</code></td>
+<td><code>ixx</code></td>
 </tr>
 <tr>
-<td> Unsigned Integer </td>
-<td> <code>u8</code>  </td>
-<td> <code>i16</code>  </td>
-<td> <code>u32</code>  </td>
-<td> <code>u64</code>  </td>
-<td> <code>u128</code>  </td>
-<td> <code>uxx</code>        </td>
+<td>Unsigned Integer</td>
+<td><code>u8</code></td>
+<td><code>i16</code></td>
+<td><code>u32</code></td>
+<td><code>u64</code></td>
+<td><code>u128</code></td>
+<td><code>uxx</code></td>
 </tr>
 <tr>
-<td> Floating Point   </td>
-<td> <code>f8</code>  </td>
-<td> <code>f16</code>  </td>
-<td> <code>f32</code>  </td>
-<td> <code>f64</code>  </td>
+<td>Floating Point</td>
+<td><code>f8</code></td>
+<td><code>f16</code></td>
+<td><code>f32</code></td>
+<td><code>f64</code></td>
 <td></td>
 <td></td>
 </tr>
 <tr>
-<td> Character        </td>
-<td> <code>c8</code>  </td>
-<td> <code>c16</code>  </td>
-<td> <code>c32</code>  </td>
+<td>Character</td>
+<td><code>c8</code></td>
+<td><code>c16</code></td>
+<td><code>c32</code></td>
 <td></td>
 <td></td>
 <td></td>
 </tr>
 </tbody>
 </table>
-
-
-<pre><code class="mina">i32 integer   = 42;
+<pre><code class="language-mina">i32 integer   = 42;
 uxx unsigned  = 127;
 f64 floating  = 3.1415;
 c8  character = 'A';
 c32 character = 'あ';
 </code></pre>
-
 <h3>Boolean Type</h3>
-
 <p>The boolean type <code>bool</code> can be one of the values <code>true</code> and <code>false</code>, which can also be defined using <code>0</code> and <code>1</code></p>
-
-<pre><code class="mina">bool var_a = true; // 1
+<pre><code class="language-mina">bool var_a = true; // 1
 bool var_b = 0;    // false
 </code></pre>
-
-<blockquote><p>When possible should be stored as single bits in a &ldquo;boolean collection&rdquo;</p>
-
-<p>Including <code>yes</code> / <code>no</code> and <code>on</code> / <code>off</code> could be neat but might be overdoing things</p></blockquote>
-
+<blockquote>
+<p>When possible should be stored as single bits in a "boolean collection"</p>
+<p>Including <code>yes</code> / <code>no</code> and <code>on</code> / <code>off</code> could be neat but might be overdoing things</p>
+</blockquote>
 <h2>Compound Types</h2>
-
 <p>Compound types are groupings of multiple values</p>
-
 <h3>Array Type</h3>
-
-<p>Arrays are static, stack allocated collections of scalar variables. They get a fixed capacity on decleration that can be independently assiged from it&rsquo;s length.</p>
-
-<pre><code class="mina">i16 array_a[]    = [10, 20, 30];  // length 3, all set
+<p>Arrays are static, stack allocated collections of scalar variables. They get a fixed capacity on decleration that can be independently assiged from it's length.</p>
+<pre><code class="language-mina">i16 array_a[]    = [10, 20, 30];  // length 3, all set
 f64 array_b[5];                   // length 5, all 0
 i32 array_c[10]  = [1, 2];        // length 10, first two set, rest 0
 u8  array_d[128] = [255...];      // length 128, set all to 255
 
 c8  str_array[1, 10];             // initial length of 1, but has capacity of 10
-c8  str_array[]  = "Hello!";
+c8  str_array[]  = &quot;Hello!&quot;;
 </code></pre>
-
 <h3>Struct and Union Types</h3>
-
 <p>Structs and Unions are fairly standard</p>
-
-<blockquote><p>Though I want the possibility of anonymous arrays</p></blockquote>
-
-<pre><code class="mina">union v2f (
+<blockquote>
+<p>Though I want the possibility of anonymous arrays</p>
+</blockquote>
+<pre><code class="language-mina">union v2f (
     struct ( f64 x, y; );
     struct ( f64 u, v; );
     struct ( f64 w, h; );
@@ -166,10 +149,8 @@ point.x   // 16
 point.v   // 42
 point[1]  // 42
 </code></pre>
-
 <p>Bit fields should also be possible</p>
-
-<pre><code class="mina">struct bitmap (
+<pre><code class="language-mina">struct bitmap (
     u32:4  width;      // 8, 16, 24 ... 128 px
     u32:4  height;     // 8, 16, 24 ... 128 px
 
@@ -179,13 +160,10 @@ point[1]  // 42
     u32:20 data_pos;   // 0 - 1048575 (1024 KiB)
 );
 </code></pre>
-
 <h2>String Type</h2>
-
 <p>The string type <code>str</code> is an alias for <code>c32 heap</code> heap allocated array</p>
-
-<pre><code class="mina">str string = "Hello";
-string.append(", World!");
+<pre><code class="language-mina">str string = &quot;Hello&quot;;
+string.append(&quot;, World!&quot;);
 </code></pre>
 </article>
 		</main>
