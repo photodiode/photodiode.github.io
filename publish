@@ -1,15 +1,40 @@
 #!/bin/bash
 
-mal=$(<index.htm)
+template=$(<src/template.html)
 
 for i in src/articles/*.md; do
 	[ -f "$i" ] || break
-	
-	md=$'<time datetime="2021-04-05">2021.04.05</time>\n\n'
-	md+=$(markdown -f FENCEDCODE "$i")
 
-	html="${mal/<!-- ARTICLE -->/$md}"
+	parts=($(basename "$i")) ## get filename and split by space
 
-	file=$(basename $i)
-	echo "$html" > article/"${file%.md}.html"
+	date=${parts[0]} # fist part is the date
+	file=${parts[1]} # second is the name + extension
+	title=$(grep '^# ' "$i") # get main header title from markdown
+
+	echo "converting '${file}'"
+
+	html="<article>"$'\n'
+	html+="<time datetime=\"${date//./-}\">${date}</time>"$'\n\n' # add date
+	html+=$(markdown -f FENCEDCODE "$i") # convert markdown to html
+	html+=$'\n'"</article>"
+
+	html="${template/<!-- CONTENT -->/$html}" # put the html into the template
+
+	newpath="article/""${file%.md}.html"
+
+	echo "$html" > "$newpath" # save new html
+
+	# make list entry
+	list+="<li><article>"$'\n'
+	list+="<a href=\"${newpath}\"><h1>${title:2}</h1></a>"$'\n'
+	list+="<time datetime=\"${date//./-}\">${date}</time>"$'\n'
+	list+="</article></li>"$'\n'
 done
+
+echo "making index.html"
+
+list="<ul>"$'\n'"$list""</ul>"$'\n'
+
+html="${template/<!-- CONTENT -->/$list}"
+
+echo "$html" > "index.html"

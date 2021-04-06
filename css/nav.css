@@ -68,14 +68,9 @@ header {
 	user-select: none;
 }
 
-header h1 {
-	margin: 0;
-	
+header a {
 	font-size: 20px;
 	line-height: 32px;
-}
-
-header h1 a {
 	text-decoration: none;
 }
 
@@ -90,7 +85,7 @@ header img {
 	mix-blend-mode: lighten;
 }
 
-header h1 div {
+header div {
 	color: var(--background-color);
 	text-indent: 40px;
 }
@@ -109,10 +104,25 @@ footer {
 	position: relative;
 }
 
+footer a {
+	width: 32px;
+	height: 32px;
+
+	display: block;
+	box-sizing: border-box;
+	
+	border: 2px solid var(--main-color);
+	border-radius: 50%;
+}
+
+footer a:hover {
+	border-color: var(--background-color);
+}
+
 footer a img {
 	height: 20px;
 	
-	margin: 6px;
+	margin: 4px;
 	
 	display: block;
 	
@@ -156,8 +166,9 @@ footer a img {
 	border-right: 12px solid var(--main-color); 
 }
 
-@media only screen and (max-width: 640px) {
+@media only screen and (max-width: 720px) {
 	main {
+		max-width: 100%;
 		margin: 0 0 64px 0;
 		transform: translateX(calc(var(--nav-width) + var(--margin)));
 	}

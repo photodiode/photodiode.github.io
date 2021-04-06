@@ -1,7 +1,7 @@
 
 :root {
-	--background-color: #e2dac4; /* #ecbe41 */
-	--main-color:       #004e7a; /* #2c3031 */
+	--background-color: #d7cdb3; /* #e2dac4 */
+	--main-color:       #004e7a; /* #004e7a */
 	--highlight-color:  #c8383f;
 	
 	--content-width: 640px;
@@ -19,15 +19,16 @@
 	--highlight-color:  #c23e44;
 }
 
-.yellow2 {
-	--background-color: #eec559;
-	--main-color:       #232f2e;
-	--highlight-color:  #c8383f;
+.gray {
+	--background-color: #cecece;
+	--main-color:       #444444;
+	--highlight-color:  #b9263b;
 }
 
 ::selection {
 	background: var(--main-color);
 	color: var(--background-color);
+	filter: invert(100%);
 }
 
 body{
