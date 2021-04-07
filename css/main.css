@@ -14,7 +14,7 @@
 }
 
 .yellow {
-	--background-color: #e8c25f;
+	--background-color: #e8c25f; /* #e8bf62 */
 	--main-color:       #232f2e;
 	--highlight-color:  #c23e44;
 }
@@ -57,4 +57,56 @@ main {
 main ul {
 	padding: 0;
 	list-style: none;
+}
+
+main ul li {
+	position: relative;
+}
+
+main ul li::after {
+	content: '';
+	
+	width: 100%;
+	height: 4px;
+	
+	position: absolute;
+	bottom: 0;
+
+	border-radius: 2px;
+	
+	background-color: var(--main-color);
+}
+
+main ul li:last-of-type::after {
+	content: none;
+}
+
+main ul li article a {
+	padding-bottom: 4px;
+	display: block;
+	text-decoration: none;
+}
+
+main ul li article h1 {
+	margin-top: 12px;
+	position: relative;
+}
+
+main ul li article a:hover::after {
+	content: '';
+	
+	width: 100%;
+	height: calc(100% - var(--margin));
+	
+	padding: 4px 8px;
+	
+	position: absolute;
+	top: -4px;
+	left: -8px;
+	z-index: -10;
+
+	border-radius: 8px;
+	
+	background-image: url(../gfx/dot.png);
+	background-size: 4px;
 }

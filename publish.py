@@ -2,6 +2,8 @@
 import os
 import re
 import markdown
+
+md = markdown.Markdown(extensions=['extra']);
 	
 src_dir = 'src/articles/'
 files = os.listdir(src_dir)
@@ -23,7 +25,7 @@ for filename in list(reversed(sorted(files))):
 
 	with open(src_dir+filename, 'r') as f:
 		text = f.read()
-		html = markdown.markdown(text, extensions=['extra'])
+		html = md.convert(text)
 	# ----
 
 	date = '<time datetime="' + date.replace('.', '-') + '">' + date + '</time>\n'
@@ -37,13 +39,16 @@ for filename in list(reversed(sorted(files))):
 	# ----
 
 	# make list entry
-	title = re.search("^# .*", text).group()[2:]
-	
-	article_list += '<li><article>\n'
-	article_list += '<a href="' + newpath + '"><h1>' + title + '</h1></a>\n'
+	match = re.search("^# .*", text)
+	title = match.group()[2:]
+	summary = re.search("[\s\S]*(?=\n---)", text[match.span()[1]:]).group().strip()
+
+	article_list += '<li><article><a href="' + newpath + '">\n'
+	article_list += '<h1>' + title + '</h1>\n'
 	article_list += date
-	article_list += '</article></li>\n'
-	
+	article_list += md.convert(summary) + '\n'
+	article_list += '</a></article></li>\n'
+	# ----
 # ----
 
 print('making "index.html"...')

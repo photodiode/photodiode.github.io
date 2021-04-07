@@ -27,7 +27,13 @@ function matchChar(src, matches) {
 
 function matchNumber(src) {
 	if (matchChar(src[0], ':!%()+,-*<=>[]{}|~^ \t\r\n') == 0) return 0;
+
 	let i = 1;
+
+	if (src[1] == '0' && matchChar(src[2], 'box') == 1) {
+		i = 3;
+	}
+	
 	while (!isNaN(src.substr(1, i)) && i < src.length && matchChar(src[i], ' \t\r\n') == 0) {
 		i++;
 	}

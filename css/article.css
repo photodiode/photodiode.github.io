@@ -4,12 +4,13 @@ article {
 }
 
 article time {
-	margin: 16px 0;
+	margin: 8px 0;
 	padding: 0 8px;
 
 	position: absolute;
 	top: 0;
 	right: 0;
+	z-index: 10;
 	
 	border-radius: var(--radius);
 	background-color: var(--main-color);
@@ -24,7 +25,7 @@ article h1 {
 	margin: var(--margin) 0;
 	
 	font-size: 32px;
-	line-height: 48px;
+	line-height: 40px;
 }
 
 article h2 {
@@ -77,6 +78,11 @@ article p {
 	line-height: 24px;
 }
 
+article hr {
+	border: 2px solid var(--main-color);
+	border-radius: 2px;
+}
+
 article blockquote {
 	margin: var(--margin) 0;
 	padding: 0 8px;
@@ -113,8 +119,6 @@ article table td, table th {
 article table tbody tr {
 	background-image: url(../gfx/dot.png);
 	background-size: 4px;
-	background-attachment: fixed;
-	background-position: left;
 
 	text-shadow: -1px  1px 0 var(--background-color),
 	              1px  1px 0 var(--background-color),
