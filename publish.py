@@ -4,7 +4,8 @@ import re
 import markdown
 
 md = markdown.Markdown(extensions=['extra']);
-	
+
+root = 'docs/'
 src_dir = 'src/articles/'
 files = os.listdir(src_dir)
 
@@ -34,7 +35,7 @@ for filename in list(reversed(sorted(files))):
 	
 	newpath = 'article/' + name + '.html'
 
-	with open(newpath, 'w') as f:
+	with open(root + newpath, 'w') as f:
 		f.write(html)
 	# ----
 
@@ -55,5 +56,5 @@ print('making "index.html"...')
 article_list = '<ul>\n' + article_list + '</ul>'
 html = template.replace('<!-- CONTENT -->', article_list, 1)
 
-with open('index.html', 'w') as f:
+with open(root + 'index.html', 'w') as f:
 	f.write(html)

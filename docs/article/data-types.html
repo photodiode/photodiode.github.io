@@ -10,13 +10,13 @@
 
 		<title>photodiode</title>
 
-		<link rel="stylesheet" type="text/css" href="css/main.css">
-		<link rel="stylesheet" type="text/css" href="css/nav.css">
-		<link rel="stylesheet" type="text/css" href="css/dialog.css">
+		<link rel="stylesheet" type="text/css" href="style/main.css">
+		<link rel="stylesheet" type="text/css" href="style/nav.css">
+		<link rel="stylesheet" type="text/css" href="style/dialog.css">
 		
-		<link rel="stylesheet" type="text/css" href="css/article.css">
-		<link rel="stylesheet" type="text/css" href="css/code.css">
-		<link rel="stylesheet" type="text/css" href="css/syntax_mina.css">
+		<link rel="stylesheet" type="text/css" href="style/article.css">
+		<link rel="stylesheet" type="text/css" href="style/code.css">
+		<link rel="stylesheet" type="text/css" href="style/syntax_mina.css">
 		
 		<script src="js/code.js"></script>
 		<script>
@@ -26,26 +26,16 @@
 		</script>
 	</head>
 	<body class="yellow">
-		<label id="nav_button" for="nav_checkbox">❯❮</label>
-		<input type="checkbox" id="nav_checkbox" checked>
-		<nav>
-			<header>
-				<a href="/">
-					<img src="gfx/photodiode.svg" alt="Simplistic representation of a pin style photodiode">
-					<div>photodiode</div>
-				</a>
-			</header>
-			<section>
-				<p>I think I just like learning.</p>
-			</section>
-			<!--a id="arrow" href="/">Back to front</a-->
-			<footer>
-				<a href="https://github.com/photodiode" target="_blank"><img src="gfx/github.svg" alt="github.com/photodiode"></a>
-				<a href="https://twitter.com/pinphotodiode" target="_blank"><img src="gfx/twitter.svg" alt="twitter.com/pinphotodiode"></a>
-				<a href="https://addons.mozilla.org/en-US/firefox/addon/panorama-view/" target="_blank"><img src="gfx/addons.svg" alt="Firefox Addons"></a>
-			</footer>
-		</nav>
 		<div class="dialog" hidden>Hello!</div>
+		<header>
+			<a href="/">
+				<img src="style/gfx/photodiode.svg" alt="Simplistic representation of a pin style photodiode">
+				<div>photodiode</div>
+			</a>
+			<nav>
+				<a class="arrow" href="/">Back</a>
+			</nav>
+		</header>
 		<main>
 <article>
 <time datetime="2021-03-15">2021.03.15</time>
@@ -169,5 +159,15 @@ string.append(&quot;, World!&quot;);
 </code></pre>
 </article>
 		</main>
+		<footer>
+			<section id="profile">
+				<p>I think I just like learning.</p>
+			</section>
+			<section id="links">
+				<a href="https://github.com/photodiode" target="_blank"><img src="style/gfx/github.svg" alt="github.com/photodiode"></a>
+				<a href="https://twitter.com/pinphotodiode" target="_blank"><img src="style/gfx/twitter.svg" alt="twitter.com/pinphotodiode"></a>
+				<a href="https://addons.mozilla.org/en-US/firefox/addon/panorama-view/" target="_blank"><img src="style/gfx/addons.svg" alt="Firefox Addons"></a>
+			</section>
+		</footer>
 	</body>
 </html>
