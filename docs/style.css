@@ -1,0 +1,107 @@
+
+:root {
+	--bgc: #fafafa;
+	--fgc: #232f2e;
+	--hlc: #f94646;
+	--htc: #232f2e7f;
+
+	--width: 70ch;
+	--nav-width: 10ch;
+
+	--border: 0.25ch;
+}
+
+body {
+	max-width: var(--width);
+	margin: auto;
+	padding: 0 2ch;
+
+	background-color: var(--bgc);
+
+	color: var(--fgc);
+	font-family: sans-serif;
+	line-height: 1.5;
+}
+
+header h1 {
+	font-size: 1.5em;
+	display: flex;
+}
+
+header h1::before {
+	content: '';
+	
+	width: 1.5em;
+	height: 1.5em;
+	
+	display: inline-block;
+	
+	background-color: var(--hlc);
+	
+	mask: url(gfx/photodiode.svg) no-repeat center left;
+	vertical-align: middle;
+}
+
+a {
+	color: var(--hlc);
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+ol {
+	padding: 0;
+	list-style: none;
+}
+
+li {
+	margin-bottom: 1ch;
+	display: flex;
+	justify-content: space-between;
+}
+
+ol a {
+	width: 100%;
+}
+
+time {
+	color: var(--htc);
+}
+
+article > header {
+	display: flex;
+	justify-content: space-between;
+}
+
+blockquote {
+	margin-left: 0;
+	padding: 0 2ch;
+	border-left: var(--border) solid var(--htc);
+}
+
+pre {
+	display: flex;
+	overflow-x: auto;
+}
+
+pre .line_numbers {
+	padding-right: 2ch;
+	color: var(--htc);
+	text-align: right;
+	user-select: none;
+}
+
+pre .symbol {
+	font-weight: bold;
+}
+
+pre .number, pre .string {
+	color: var(--hlc);
+	font-weight: bold;
+}
+
+pre .comment {
+	color: var(--htc);
+}

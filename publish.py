@@ -3,7 +3,7 @@ import os
 import re
 import markdown
 
-md = markdown.Markdown(extensions=['extra']);
+md = markdown.Markdown(output_format="html5", extensions=['extra']);
 
 root = 'docs/'
 src_dir = 'src/articles/'
@@ -29,10 +29,21 @@ for filename in list(reversed(sorted(files))):
 		html = md.convert(text)
 	# ----
 
+	# title & summary
+	match = re.search("^# .*", text)
+	title = match.group()[2:]
+	# ----
+
+	# insert date
 	date = '<time datetime="' + date.replace('.', '-') + '">' + date + '</time>\n'
-	html = '<article>\n' + date + html + '\n</article>'
+	match = re.search("</h1>\n", html)
+	# ----
+
+	# apply template
+	html = '<article>\n' + html[0:match.span()[1]] + date + html[match.span()[1]:] + '\n</article>'
 	html = template.replace('<!-- CONTENT -->', html, 1)
-	
+	# ----
+
 	newpath = 'article/' + name + '.html'
 
 	with open(root + newpath, 'w') as f:
@@ -40,20 +51,15 @@ for filename in list(reversed(sorted(files))):
 	# ----
 
 	# make list entry
-	match = re.search("^# .*", text)
-	title = match.group()[2:]
-	summary = re.search("[\s\S]*(?=\n---)", text[match.span()[1]:]).group().strip()
-
-	article_list += '<li><article><a href="' + newpath + '">\n'
-	article_list += '<h1>' + title + '</h1>\n'
-	article_list += date
-	article_list += md.convert(summary) + '\n'
-	article_list += '</a></article></li>\n'
+	article_list += '\t\t\t<li>\n'
+	article_list += '\t\t\t\t<a href="' + newpath + '">' + title + '</a>\n'
+	article_list += '\t\t\t\t' + date
+	article_list += '\t\t\t</li>\n'
 	# ----
 # ----
 
 print('making "index.html"...')
-article_list = '<ul>\n' + article_list + '</ul>'
+article_list = '\t\t<ol>\n' + article_list + '\t\t</ol>'
 html = template.replace('<!-- CONTENT -->', article_list, 1)
 
 with open(root + 'index.html', 'w') as f:

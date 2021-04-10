@@ -33,7 +33,7 @@ header > a {
 	display: inline-block;
 
 	font-size: 20px;
-	line-height: 32px;
+	line-height: 28px;
 	text-decoration: none;
 }
 
@@ -62,7 +62,7 @@ footer {
 }
 
 #profile {
-	height: 200px;
+	min-height: 100px;
 
 	margin: 0 var(--margin);
 }
@@ -142,6 +142,9 @@ nav .arrow::after {
 		position: relative;
 		
 		border-radius: 0;
+	}
+	footer{
+		bottom: 0;
 	}
 	nav .arrow {
 		display: inline-block;

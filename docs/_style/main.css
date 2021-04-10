@@ -107,6 +107,6 @@ main ul li article a:hover::after {
 
 	border-radius: 8px;
 	
-	background-image: url(gfx/dot.png);
+	background-image: url(gfx/dot_30.png);
 	background-size: 4px;
 }

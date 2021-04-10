@@ -15,8 +15,8 @@
 
 .mina .comment {
 	background-clip: text;
-	background-image: url(gfx/dot.png);
-	background-size: 2px;
+	background-image: url(gfx/dot_60.png);
+	background-size: 4px;
 	
 	color: transparent;
 	font-weight: bold;
