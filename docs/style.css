@@ -66,7 +66,6 @@ header h1::before {
 	margin-right: 0.5ch;
 	background-color: var(--hlc);
 	-webkit-mask: url(gfx/photodiode.svg) no-repeat center / contain;
-	mask: url(gfx/photodiode.svg) no-repeat center / contain;
 }
 
 main {
@@ -89,7 +88,6 @@ footer {
 	display: block;
 	overflow: hidden;
 	background-color: var(--fgc);
-	-webkit-mask: no-repeat center / contain;
 	text-indent: -999ch;
 }
 
@@ -97,9 +95,9 @@ footer {
 	background-color: var(--hlc);
 }
 
-#links .github  {-webkit-mask-image:url(gfx/github.svg);}
-#links .twitter {-webkit-mask-image:url(gfx/twitter.svg);}
-#links .firefox {-webkit-mask-image:url(gfx/firefox.svg);}
+#links .github  {-webkit-mask: url(gfx/github.svg)  no-repeat center / contain;}
+#links .twitter {-webkit-mask: url(gfx/twitter.svg) no-repeat center / contain;}
+#links .firefox {-webkit-mask: url(gfx/firefox.svg) no-repeat center / contain;}
 
 
 a {
