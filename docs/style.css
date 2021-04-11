@@ -50,8 +50,16 @@ header h1::before {
 	content: '';
 	width: 1.5em;
 	background-color: var(--hlc);
-	-webkit-mask: url(gfx/photodiode.svg) no-repeat center left;
-	mask: url(gfx/photodiode.svg) no-repeat center left / contain;
+	-webkit-mask: url(gfx/photodiode.svg) no-repeat center / contain;
+	mask: url(gfx/photodiode.svg) no-repeat center / contain;
+}
+
+header h1 a {
+	text-indent: 0.5ch;
+}
+
+main {
+	margin-bottom: 4rem;
 }
 
 a {
@@ -70,7 +78,7 @@ ol {
 }
 
 li {
-	margin-bottom: 1ch;
+	margin-bottom: 0.5em;
 	display: flex;
 	justify-content: space-between;
 }
@@ -82,7 +90,7 @@ ol a {
 
 /* article */
 article h1 {
-	margin-bottom: 0.5ch;
+	margin-bottom: 0.5rem;
 }
 
 time {

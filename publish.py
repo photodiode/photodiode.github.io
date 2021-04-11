@@ -59,7 +59,7 @@ for filename in list(reversed(sorted(files))):
 
 print('making "index.html"...')
 
-article_list = '\t\t<ol>\n' + article_list + '\t\t</ol>'
+article_list = '\t\t<h2>Articles</h2>\t\t<ol>\n' + article_list + '\t\t</ol>'
 html = template.replace('<!-- TITLE -->', website_name , 1)
 html = html.replace('<!-- CONTENT -->', article_list, 1)
 
