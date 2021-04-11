@@ -90,7 +90,6 @@ footer {
 	overflow: hidden;
 	background-color: var(--fgc);
 	-webkit-mask: no-repeat center / contain;
-	mask: no-repeat center / contain;
 	text-indent: -999ch;
 }
 
@@ -98,9 +97,9 @@ footer {
 	background-color: var(--hlc);
 }
 
-#links .github  {mask-image:url(gfx/github.svg);}
-#links .twitter {mask-image:url(gfx/twitter.svg);}
-#links .firefox {mask-image:url(gfx/firefox.svg);}
+#links .github  {-webkit-mask-image:url(gfx/github.svg);}
+#links .twitter {-webkit-mask-image:url(gfx/twitter.svg);}
+#links .firefox {-webkit-mask-image:url(gfx/firefox.svg);}
 
 
 a {
