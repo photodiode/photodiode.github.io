@@ -50,16 +50,16 @@ for filename in list(reversed(sorted(files))):
 	# ----
 
 	# make list entry
-	article_list += '\t\t\t<li>\n'
-	article_list += '\t\t\t\t<a href="' + newpath + '">' + title + '</a>\n'
-	article_list += '\t\t\t\t' + date
-	article_list += '\t\t\t</li>\n'
+	article_list += '\t\t\t\t<li>\n'
+	article_list += '\t\t\t\t\t<a href="' + newpath + '">' + title + '</a>\n'
+	article_list += '\t\t\t\t\t' + date
+	article_list += '\t\t\t\t</li>\n'
 	# ----
 # ----
 
 print('making "index.html"...')
 
-article_list = '\t\t<h2>Articles</h2>\t\t<ol>\n' + article_list + '\t\t</ol>'
+article_list = '\t\t\t<h2>Articles</h2>\n\t\t\t<ol>\n' + article_list + '\t\t\t</ol>'
 html = template.replace('<!-- TITLE -->', website_name , 1)
 html = html.replace('<!-- CONTENT -->', article_list, 1)
 

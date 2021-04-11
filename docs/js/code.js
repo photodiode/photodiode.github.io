@@ -1,28 +1,9 @@
 
 'use strict';
 
-function newElement(name, attributes, children) {
-	const e = document.createElement(name);
-	for(const key in attributes) {
-		if (key == 'content') {
-			e.appendChild(document.createTextNode(attributes[key]));
-		} else {
-			e.setAttribute(key.replace(/_/g, '-'), attributes[key]);
-		}
-	}
-	for(const child of children || []) {
-		e.appendChild(child);
-	}
-	return e;
-}
-
 function matchChar(src, matches) {
-	for (let i = 0; i < matches.length; i++) {
-		if (src[0] == matches[i]) {
-			return 1;
-		}
-	}
-	return 0;
+	let i = matches.indexOf(src[0]);
+	return (i != -1) ? 1 : 0;
 }
 
 function matchNumber(src) {
@@ -40,12 +21,11 @@ function matchNumber(src) {
 	return i-1;
 }
 
-function matchRegion(src, begin, end) {
-	if (src.substr(0, begin.length) == begin) {
-		for (let i = 1; i < src.length; i++) {
-			if (src.substr(i, end.length) == end || i == src.length-1) {
-				return i + end.length;
-			}
+function matchRegion(src, start, end) {
+	if (src.substr(0, start.length) != start) return 0;
+	for (let i = 1; i < src.length; i++) {
+		if (src.substr(i, end.length) == end || i == src.length-1) {
+			return i + end.length;
 		}
 	}
 	return 0;
@@ -60,44 +40,26 @@ function mina(code) {
 		let match, tmp, type;
 
 		tmp = matchChar(code.substr(i), ':!%&()+,-/.*<=>?[]{}|~^;');
-		if (tmp > 0) {
-			match = tmp;
-			type = 'symbol';
-		}
+		if (tmp) {match = tmp; type = 'symbol';}
 
 		tmp = matchNumber(code.substr(i-1));
-		if (tmp > 0) {
-			match = tmp;
-			type = 'number';
-		}
+		if (tmp) {match = tmp; type = 'number';}
 
 		// strings
 		tmp = matchRegion(code.substr(i), '"', '"');
-		if (tmp > 0) {
-			match = tmp;
-			type = 'string';
-		}
+		if (tmp) {match = tmp; type = 'string';}
 
 		tmp = matchRegion(code.substr(i), '\'', '\'');
-		if (tmp > 0) {
-			match = tmp;
-			type = 'string';
-		}
+		if (tmp) {match = tmp; type = 'string';}
 		
 		// comments
 		tmp = matchRegion(code.substr(i), '//', '\n');
-		if (tmp > 0) {
-			match = tmp;
-			type = 'comment';
-		}
+		if (tmp) {match = tmp; type = 'comment';}
 
 		tmp = matchRegion(code.substr(i), '/*', '*/');
-		if (tmp > 0) {
-			match = tmp;
-			type = 'comment';
-		}
+		if (tmp) {match = tmp; type = 'comment';}
 
-		if (match > 0) {
+		if (match) {
 			output += '<span class="' + type + '">' + code.substr(i, match) + '</span>';
 			i += match;
 		} else {
@@ -105,35 +67,30 @@ function mina(code) {
 			i++;
 		}
 	}
-
 	return output;
 }
 
 function formatCode(preNode) {
 	
 	const codeNode = preNode.getElementsByTagName('code')[0];
-
-	const code = codeNode.textContent;
+	const code     = codeNode.textContent;
 
 	// line numbers
 	let lines = code.split('\n');
-	let lineNumbers = '';
+	if (lines.slice(-1) == '') lines.pop();
+	let lineNumbers = lines.map((_, i) => (i+1)).join('\n');
 
-	if (lines[lines.length-1] == '') lines.pop();
-
-	for(let i = 1; i <= lines.length; ++i){
-		lineNumbers += i+'\n';
-	}
-
-	preNode.prepend(newElement('div', {'content': lineNumbers, 'class': 'line_numbers', 'aria-hidden': true}));
+	let lineNumbersDiv = document.createElement('div');
+	    lineNumbersDiv.setAttribute('class', 'line_numbers');
+	    lineNumbersDiv.setAttribute('aria-hidden', true);
+	    lineNumbersDiv.appendChild(document.createTextNode(lineNumbers));
+	
+	preNode.prepend(lineNumbersDiv);
 	// ----
 
-	// high lighting
 	if (codeNode.classList.contains('language-mina')) {
-		codeNode.classList.add('mina');
 		codeNode.innerHTML = mina(code);
 	}
-	// ----
 }
 
 function code() {
