@@ -5,6 +5,7 @@ import markdown
 
 md = markdown.Markdown(output_format="html5", extensions=['extra']);
 
+website_name = 'photodiode'
 root = 'docs/'
 src_dir = 'src/articles/'
 files = os.listdir(src_dir)
@@ -29,19 +30,17 @@ for filename in list(reversed(sorted(files))):
 		html = md.convert(text)
 	# ----
 
-	# title & summary
-	match = re.search("^# .*", text)
-	title = match.group()[2:]
-	# ----
-
-	# insert date
-	date = '<time datetime="' + date.replace('.', '-') + '">' + date + '</time>\n'
-	match = re.search("</h1>\n", html)
+	# title & date header
+	match = re.search("<h1>.*</h1>*", html)
+	title = match.group()[4:-5]
+	date  = '<time datetime="' + date.replace('.', '-') + '">' + date + '</time>\n'
+	html  = html[0:match.span()[1]] + '\n' + date + html[match.span()[1]:]
 	# ----
 
 	# apply template
-	html = '<article>\n' + html[0:match.span()[1]] + date + html[match.span()[1]:] + '\n</article>'
-	html = template.replace('<!-- CONTENT -->', html, 1)
+	article = '<article>\n' + html + '\n</article>'
+	html = template.replace('<!-- TITLE -->', title + ' - ' + website_name, 1)
+	html = html.replace('<!-- CONTENT -->', article, 1)
 	# ----
 
 	newpath = 'article/' + name + '.html'
@@ -59,8 +58,10 @@ for filename in list(reversed(sorted(files))):
 # ----
 
 print('making "index.html"...')
+
 article_list = '\t\t<ol>\n' + article_list + '\t\t</ol>'
-html = template.replace('<!-- CONTENT -->', article_list, 1)
+html = template.replace('<!-- TITLE -->', website_name , 1)
+html = html.replace('<!-- CONTENT -->', article_list, 1)
 
 with open(root + 'index.html', 'w') as f:
 	f.write(html)
