@@ -13,9 +13,9 @@
 
 .dark {
 	--bgc: #232f2e;
-	--fgc: #e6e2e0;
+	--fgc: #d9d4d1;
 	--hlc: #f9d071;
-	--htc: #e6e2e070;
+	--htc: #d9d4d170;
 }
 
 .black {
@@ -148,20 +148,23 @@ blockquote {
 
 /* code */
 pre {
-	display: flex;
-}
-
-pre .line_numbers {
-	padding-right: 2ch;
-	color: var(--htc);
-	text-align: right;
-	user-select: none;
-}
-
-pre code {
+	counter-reset: line;
 	overflow-x: auto;
 	scrollbar-color: var(--htc) var(--bgc);
 	scrollbar-width: thin;
+}
+
+pre line::before {
+	content: counter(line);
+	counter-increment: line;
+	width: 2ch;
+	padding-right: 2ch;
+	display: inline-block;
+	color: var(--htc);
+	text-align: right;
+}
+
+pre code {
 	font-size: inherit;
 }
 

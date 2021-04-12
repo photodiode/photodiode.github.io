@@ -10,11 +10,8 @@
 
 		<link rel="icon" href="favicon.png?v=0">
 		<link rel="stylesheet" href="style.css">
-
-		<script src="js/code.js"></script>
-		<script>document.addEventListener('DOMContentLoaded', code);</script>
 	</head>
-	<body class="">
+	<body class="dark">
 		<header>
 			<h1><a href="/">photodiode</a></h1>
 		</header>
@@ -77,16 +74,16 @@
 </tr>
 </tbody>
 </table>
-<pre><code class="language-mina">i32 integer   = 42;
-uxx unsigned  = 127;
-f64 floating  = 3.1415;
-c8  character = 'A';
-c32 character = 'あ';
+<pre><code class="language-mina"><line>i32 integer   = 42;</line>
+<line>uxx unsigned  = 127;</line>
+<line>f64 floating  = 3.1415;</line>
+<line>c8  character = 'A';</line>
+<line>c32 character = 'あ';</line>
 </code></pre>
 <h3>Boolean Type</h3>
 <p>The boolean type <code>bool</code> can be one of the values <code>true</code> and <code>false</code>, which can also be defined using <code>0</code> and <code>1</code></p>
-<pre><code class="language-mina">bool var_a = true; // 1
-bool var_b = 0;    // false
+<pre><code class="language-mina"><line>bool var_a = true; // 1</line>
+<line>bool var_b = 0;    // false</line>
 </code></pre>
 <blockquote>
 <p>When possible should be stored as single bits in a "boolean collection"</p>
@@ -96,48 +93,49 @@ bool var_b = 0;    // false
 <p>Compound types are groupings of multiple values</p>
 <h3>Array Type</h3>
 <p>Arrays are static, stack allocated collections of scalar variables. They get a fixed capacity on decleration that can be independently assiged from it's length.</p>
-<pre><code class="language-mina">i16 array_a[]    = [10, 20, 30];  // length 3, all set
-f64 array_b[5];                   // length 5, all 0
-i32 array_c[10]  = [1, 2];        // length 10, first two set, rest 0
-u8  array_d[128] = [255...];      // length 128, set all to 255
-
-c8  str_array[1, 10];             // initial length of 1, but has capacity of 10
-c8  str_array[]  = &quot;Hello!&quot;;
+<pre><code class="language-mina"><line>i16 array_a[]    = [10, 20, 30];  // length 3, all set</line>
+<line>f64 array_b[5];                   // length 5, all 0</line>
+<line>i32 array_c[10]  = [1, 2];        // length 10, first two set, rest 0</line>
+<line>u8  array_d[128] = [255...];      // length 128, set all to 255</line>
+<line></line>
+<line>c8  str_array[1, 10];             // initial length of 1, but has capacity of 10</line>
+<line>c8  str_array[]  = &quot;Hello!&quot;;</line>
 </code></pre>
 <h3>Struct and Union Types</h3>
 <p>Structs and Unions are fairly standard</p>
 <blockquote>
 <p>Though I want the possibility of anonymous arrays</p>
 </blockquote>
-<pre><code class="language-mina">union v2f (
-    struct ( f64 x, y; );
-    struct ( f64 u, v; );
-    struct ( f64 w, h; );
-    f64[2]; // anonymous array
-);
-
-v2f point = (16, 42);
-
-point.x   // 16
-point.v   // 42
-point[1]  // 42
+<pre><code class="language-mina"><line>union v2f (</line>
+<line>    struct ( f64 x, y; );</line>
+<line>    struct ( f64 u, v; );</line>
+<line>    struct ( f64 w, h; );</line>
+<line>    f64[2]; // anonymous array</line>
+<line>);</line>
+<line></line>
+<line>v2f point = (16, 42);</line>
+<line></line>
+<line>point.x   // 16</line>
+<line>point.v   // 42</line>
+<line>point[1]  // 42</line>
 </code></pre>
 <p>Bit fields should also be possible</p>
-<pre><code class="language-mina">struct bitmap (
-    u32:4  width;      // 8, 16, 24 ... 128 px
-    u32:4  height;     // 8, 16, 24 ... 128 px
-
-    u32:2  bpp;        // 1, 2, 4, 8
-    u32:2  unused;
-
-    u32:20 data_pos;   // 0 - 1048575 (1024 KiB)
-);
+<pre><code class="language-mina"><line>struct bitmap (</line>
+<line>    u32:4  width;      // 8, 16, 24 ... 128 px</line>
+<line>    u32:4  height;     // 8, 16, 24 ... 128 px</line>
+<line></line>
+<line>    u32:2  bpp;        // 1, 2, 4, 8</line>
+<line>    u32:2  unused;</line>
+<line></line>
+<line>    u32:20 data_pos;   // 0 - 1048575 (1024 KiB)</line>
+<line>);</line>
 </code></pre>
 <h2>String Type</h2>
 <p>The string type <code>str</code> is an alias for <code>c32 heap</code> heap allocated array</p>
-<pre><code class="language-mina">str string = &quot;Hello&quot;;
-string.append(&quot;, World!&quot;);
+<pre><code class="language-mina"><line>str string = &quot;Hello&quot;;</line>
+<line>string.append(&quot;, World!&quot;);</line>
 </code></pre>
+
 </article>
 		</main>
 		<footer>
