@@ -118,6 +118,7 @@ ol {
 li {
 	margin-bottom: 0.5em;
 	display: flex;
+	align-items: center;
 	justify-content: space-between;
 }
 
@@ -133,6 +134,7 @@ article h1 {
 
 time {
 	color: var(--htc);
+	font-size: 0.8em;
 }
 
 article > header {
@@ -154,6 +156,10 @@ pre {
 	scrollbar-width: thin;
 }
 
+pre code {
+	font-size: inherit;
+}
+
 pre line::before {
 	content: counter(line);
 	counter-increment: line;
@@ -162,10 +168,6 @@ pre line::before {
 	display: inline-block;
 	color: var(--htc);
 	text-align: right;
-}
-
-pre code {
-	font-size: inherit;
 }
 
 pre .symbol {

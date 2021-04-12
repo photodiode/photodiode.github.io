@@ -65,6 +65,8 @@ for filename in list(reversed(sorted(files))):
 	
 	
 	html = md.convert(text)
+
+	
 	html = lineNumbers(html)
 
 	# title & date header
