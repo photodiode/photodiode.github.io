@@ -6,16 +6,23 @@
 	--htc: #232f2e70;
 
 	--width:     64ch;
-	--nav-width: 10ch;
+	--nav-width: 24ch;
 
 	--border: 0.25ch;
+}
+
+.lite {
+	--bgc: #f7f0e9;
+	--fgc: #334443;
+	--hlc: #f9bb46;
+	--htc: #7a8c7570;
 }
 
 .dark {
 	--bgc: #232f2e;
 	--fgc: #d9d4d1;
 	--hlc: #f9d071;
-	--htc: #d9d4d170;
+	--htc: #a9bba470;
 }
 
 .black {
@@ -27,7 +34,7 @@
 .red {
 	--bgc: #b92d2d;
 	--fgc: #dbd7cd;
-	--hlc: #f9d071;
+	--hlc: #111c28;
 }
 
 .yellow {
@@ -43,6 +50,16 @@
 	--htc: #e8e4e170;
 }
 
+.blue {
+	--bgc: #1a476f;
+	--fgc: #f3e1d2;
+	--hlc: #ef5053;
+	--htc: #e8e4e170;
+}
+
+
+
+
 body {
 	max-width: var(--width);
 	margin: auto;
@@ -55,23 +72,39 @@ body {
 	line-height: 1.5;
 }
 
+/* header */
 header h1 {
 	font-size: 1.5em;
-	display: flex;
 }
 
-header h1::before {
+header h1 a {
+	display: flex;
+	color: var(--fgc);
+}
+
+header h1 a::before {
 	content: '';
 	width: 1.5em;
 	margin-right: 0.5ch;
-	background-color: var(--hlc);
+	background-color: var(--fgc);
 	-webkit-mask: url(gfx/photodiode.svg) no-repeat center / contain;
 }
+
+header h1 a:hover {
+	color: var(--hlc);
+	text-decoration: none;
+}
+
+header h1 a:hover::before {
+	background-color: var(--hlc);
+}
+/* ---- */
 
 main {
 	margin-bottom: 4rem;
 }
 
+/* footer */
 footer {
 	padding-bottom: 1rem;
 }
@@ -98,7 +131,11 @@ footer {
 #links .github  {-webkit-mask: url(gfx/github.svg)  no-repeat center / contain;}
 #links .twitter {-webkit-mask: url(gfx/twitter.svg) no-repeat center / contain;}
 #links .firefox {-webkit-mask: url(gfx/firefox.svg) no-repeat center / contain;}
+/* ---- */
 
+h1 {
+	color: var(--hlc);
+}
 
 a {
 	color: var(--hlc);
@@ -118,7 +155,7 @@ ol {
 li {
 	margin-bottom: 0.5em;
 	display: flex;
-	align-items: center;
+	align-items: baseline;
 	justify-content: space-between;
 }
 
@@ -129,11 +166,10 @@ ol a {
 
 /* article */
 article h1 {
-	margin-bottom: 0.5rem;
+	margin: 1rem 0 0.5rem 0;
 }
 
 time {
-	color: var(--htc);
 	font-size: 0.8em;
 }
 
@@ -144,7 +180,7 @@ article > header {
 
 blockquote {
 	margin-left: 0;
-	padding: 0 2ch;
+	padding: 0 1.5ch;
 	border-left: var(--border) solid var(--htc);
 }
 
@@ -170,15 +206,27 @@ pre line::before {
 	text-align: right;
 }
 
-pre .symbol {
+code .symbol {
 	font-weight: bold;
 }
 
-pre .number, pre .string {
+code .number, code .string {
 	color: var(--hlc);
 	font-weight: bold;
 }
 
-pre .comment {
+code .comment {
 	color: var(--htc);
+}
+
+@media only screen and (min-width: 112ch) {
+	header, footer {
+		width: var(--nav-width);
+		margin: 0 2ch;
+		position: fixed;
+		left: 0;
+	}
+	header {top: 0;}
+	footer {bottom: 0;}
+	#links {justify-content: left;}
 }

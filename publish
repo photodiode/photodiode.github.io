@@ -1,3 +1,199 @@
-#!/bin/bash
+#!/usr/bin/python
 
-python publish.py
+import os
+import re
+import markdown
+
+md = markdown.Markdown(output_format="html5", extensions=['extra']);
+
+website_name = 'photodiode'
+root = 'docs/'
+src_dir = 'src/articles/'
+
+# template
+with open('src/template.html', 'r') as f:
+	template = f.read()
+
+def applyTemplate(title, content):
+	html = template.replace('<!-- TITLE -->', title , 1)
+	html = html.replace('<!-- CONTENT -->', content, 1)
+	return html
+# ----
+
+def matchChar(src, matches):
+	try:
+		i = matches.index(src[0])
+		i = 1
+	except ValueError:
+		i = 0
+	
+	return i
+
+def matchRegion(src, start, end):
+	if (src[0:len(start)] != start):
+		return 0
+
+	for i in range(1, len(src)+1):
+		if (src[i:i+len(end)] == end or i == len(src)-1):
+			return i + len(end)
+	return 0
+
+def mina(code):
+	output = ''
+	i = 0
+	
+	code = code.replace('&quot;', '"')
+
+	while (i < len(code)):
+
+		match = 0
+		tmp = 0
+		type = ''
+
+		tmp = matchChar(code[i:], ':!%&()+,-/.*<=>?[]{}|~^;')
+		if tmp:
+			match = tmp
+			type = 'symbol'
+		
+		tmp = matchRegion(code[i:], '"', '"');
+		if tmp:
+			match = tmp
+			type = 'string'
+		
+		tmp = matchRegion(code[i:], '\'', '\'');
+		if tmp:
+			match = tmp
+			type = 'string'
+		
+		tmp = matchRegion(code[i:], '//', '\n');
+		if tmp:
+			match = tmp
+			type = 'comment'
+		
+		tmp = matchRegion(code[i:], '/*', '*/');
+		if tmp:
+			match = tmp
+			type = 'comment'
+
+		if match:
+			output += '<span class="' + type + '">' + code[i:i+match] + '</span>'
+			i += match
+		else:
+			output += code[i]
+			i += 1
+
+	return output
+# ----
+
+def codeBlocks(html):
+	output = ''
+	code = 0
+	
+	done = 0
+	pos = 0
+	
+	while not done:
+		if not code:
+			match = re.search('<code(>|.*?[^?]>)', html[pos:])
+			if match:
+				output += html[pos:pos+match.span()[1]]
+				pos += match.span()[1]
+				code = 1
+			else:
+				output += html[pos:]
+				done = 1
+
+		else:
+			match = re.search('</code>', html[pos:])
+			if match:
+				output += mina(html[pos:pos+match.span()[0]]) + '</code>'
+				pos += match.span()[1]
+				code = 0
+			else:
+				done = 1
+
+	return output
+# ----
+
+def lineNumbers(html):
+
+	output = ''
+	code = 0
+
+	for line in html.splitlines():
+
+		pre = ''
+
+		if not code:
+			match = re.search('<pre><code\s?([\S]+)?>', line)
+			if match:
+				pre  = line[0:match.span()[1]]
+				line = line[match.span()[1]:]
+				code = 1
+
+		else:
+			match = re.search('</code></pre>', line)
+			if match:
+				code = 0
+
+		if code:
+			output += pre + '<line>' + line + '</line>\n'
+		else:
+			output += line + '\n'
+
+	return output
+# ----
+
+files = os.listdir(src_dir)
+article_list = ''
+
+for filename in list(reversed(sorted(files))):
+
+	print('converting "{:s}"...'.format(filename))
+
+	parts = filename.split(' ', 1)
+	date = parts[0]
+	name = os.path.splitext(parts[1])[0]
+
+	with open(src_dir+filename, 'r') as f:
+		text = f.read()
+	# ----
+	
+	
+	html = md.convert(text)
+	html = codeBlocks(html)
+	html = lineNumbers(html)
+
+	# title & date header
+	match = re.search('<h1>.*</h1>*', html)
+	title = match.group()[4:-5]
+	date  = '<time datetime="' + date.replace('.', '-') + '">' + date + '</time>\n'
+	html  = html[0:match.span()[1]] + '\n' + date + html[match.span()[1]:]
+	# ----
+
+	# apply template
+	article = '<article>\n' + html + '\n</article>'
+	html = applyTemplate(title + ' - ' + website_name, article)
+	# ----
+
+	newpath = 'article/' + name + '.html'
+
+	with open(root + newpath, 'w') as f:
+		f.write(html)
+	# ----
+
+	# make list entry
+	article_list += '\t\t\t\t<li>\n'
+	article_list += '\t\t\t\t\t<a href="' + newpath + '">' + title + '</a>\n'
+	article_list += '\t\t\t\t\t' + date
+	article_list += '\t\t\t\t</li>\n'
+	# ----
+# ----
+
+print('making "index.html"...')
+
+article_list = '\t\t\t<h2>Articles</h2>\n\t\t\t<ol>\n' + article_list + '\t\t\t</ol>'
+html = applyTemplate(website_name, article_list)
+
+with open(root + 'index.html', 'w') as f:
+	f.write(html)
