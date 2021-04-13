@@ -7,8 +7,6 @@
 
 	--width:     64ch;
 	--nav-width: 24ch;
-
-	--border: 0.25ch;
 }
 
 .lite {
@@ -181,7 +179,7 @@ article > header {
 blockquote {
 	margin-left: 0;
 	padding: 0 1.5ch;
-	border-left: var(--border) solid var(--htc);
+	border-left: 0.25ch solid var(--htc);
 }
 
 /* code */
