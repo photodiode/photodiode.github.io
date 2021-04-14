@@ -10,10 +10,12 @@
 }
 
 @media (prefers-color-scheme: dark) {
-	--bgc: #232f2e;
-	--fgc: #d9d4d1;
-	--hlc: #ff4850;
-	--htc: #a9bba470;
+	:root {
+		--bgc: #232f2e;
+		--fgc: #d9d4d1;
+		--hlc: #ff4850;
+		--htc: #a9bba470;
+	}
 }
 
 .lite {
