@@ -9,6 +9,13 @@
 	--nav-width: 24ch;
 }
 
+@media (prefers-color-scheme: dark) {
+	--bgc: #232f2e;
+	--fgc: #d9d4d1;
+	--hlc: #ff4850;
+	--htc: #a9bba470;
+}
+
 .lite {
 	--bgc: #f7f0e9;
 	--fgc: #334443;
@@ -167,6 +174,10 @@ article h1 {
 	margin: 1rem 0 0.5rem 0;
 }
 
+h2 {
+	margin: 1rem 0;
+}
+
 time {
 	font-size: 0.8em;
 }
@@ -184,19 +195,19 @@ blockquote {
 
 /* code */
 pre {
-	counter-reset: line;
 	overflow-x: auto;
 	scrollbar-color: var(--htc) var(--bgc);
 	scrollbar-width: thin;
 }
 
 pre code {
+	counter-reset: line;
 	font-size: inherit;
 }
 
-pre line::before {
-	content: counter(line);
+pre code line::before {
 	counter-increment: line;
+	content: counter(line);
 	width: 2ch;
 	padding-right: 2ch;
 	display: inline-block;
@@ -204,16 +215,16 @@ pre line::before {
 	text-align: right;
 }
 
-code .symbol {
+code .o, code .p, code .kt {
 	font-weight: bold;
 }
 
-code .number, code .string {
+code .mi, code .mh, code .mf, code .s, code .k {
 	color: var(--hlc);
 	font-weight: bold;
 }
 
-code .comment {
+code .c1, .cm {
 	color: var(--htc);
 }
 

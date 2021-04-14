@@ -4,7 +4,14 @@ import os
 import re
 import markdown
 
-md = markdown.Markdown(output_format="html5", extensions=['extra']);
+configs = {
+	'codehilite': {
+		'cssclass': 'code',
+		'guess_lang': False
+	}
+}
+
+md = markdown.Markdown(output_format='html5', extensions=['extra', 'codehilite'], extension_configs=configs, tab_length=8);
 
 website_name = 'photodiode'
 root = 'docs/'
@@ -20,124 +27,24 @@ def applyTemplate(title, content):
 	return html
 # ----
 
-def matchChar(src, matches):
-	try:
-		i = matches.index(src[0])
-		i = 1
-	except ValueError:
-		i = 0
-	
-	return i
-
-def matchRegion(src, start, end):
-	if (src[0:len(start)] != start):
-		return 0
-
-	for i in range(1, len(src)+1):
-		if (src[i:i+len(end)] == end or i == len(src)-1):
-			return i + len(end)
-	return 0
-
-def mina(code):
-	output = ''
-	i = 0
-	
-	code = code.replace('&quot;', '"')
-
-	while (i < len(code)):
-
-		match = 0
-		tmp = 0
-		type = ''
-
-		tmp = matchChar(code[i:], ':!%&()+,-/.*<=>?[]{}|~^;')
-		if tmp:
-			match = tmp
-			type = 'symbol'
-		
-		tmp = matchRegion(code[i:], '"', '"');
-		if tmp:
-			match = tmp
-			type = 'string'
-		
-		tmp = matchRegion(code[i:], '\'', '\'');
-		if tmp:
-			match = tmp
-			type = 'string'
-		
-		tmp = matchRegion(code[i:], '//', '\n');
-		if tmp:
-			match = tmp
-			type = 'comment'
-		
-		tmp = matchRegion(code[i:], '/*', '*/');
-		if tmp:
-			match = tmp
-			type = 'comment'
-
-		if match:
-			output += '<span class="' + type + '">' + code[i:i+match] + '</span>'
-			i += match
-		else:
-			output += code[i]
-			i += 1
-
-	return output
-# ----
-
-def codeBlocks(html):
-	output = ''
-	code = 0
-	
-	done = 0
-	pos = 0
-	
-	while not done:
-		if not code:
-			match = re.search('<code(>|.*?[^?]>)', html[pos:])
-			if match:
-				output += html[pos:pos+match.span()[1]]
-				pos += match.span()[1]
-				code = 1
-			else:
-				output += html[pos:]
-				done = 1
-
-		else:
-			match = re.search('</code>', html[pos:])
-			if match:
-				output += mina(html[pos:pos+match.span()[0]]) + '</code>'
-				pos += match.span()[1]
-				code = 0
-			else:
-				done = 1
-
-	return output
-# ----
-
 def lineNumbers(html):
-
+	
 	output = ''
-	code = 0
-
+	code = False
+	
 	for line in html.splitlines():
-
-		pre = ''
-
-		if not code:
-			match = re.search('<pre><code\s?([\S]+)?>', line)
-			if match:
-				pre  = line[0:match.span()[1]]
-				line = line[match.span()[1]:]
-				code = 1
-
-		else:
-			match = re.search('</code></pre>', line)
-			if match:
-				code = 0
-
+		first = False
+		if re.search('<pre><code>', line):
+			first = True
+			code = True
+		elif re.search('</code></pre>', line):
+			code = False
+		
 		if code:
-			output += pre + '<line>' + line + '</line>\n'
+			if first:
+				output += line[0:11] + '<line>' + line[11:] + '</line>\n'
+			else:
+				output += '<line>' + line + '</line>\n'
 		else:
 			output += line + '\n'
 
@@ -158,10 +65,11 @@ for filename in list(reversed(sorted(files))):
 	with open(src_dir+filename, 'r') as f:
 		text = f.read()
 	# ----
-	
-	
+
 	html = md.convert(text)
-	html = codeBlocks(html)
+
+	html = re.sub('<div class="code"><pre>[\s\S]+?<code>', '<pre><code>', html)
+	html = html.replace('</code></pre></div>', '</code></pre>')
 	html = lineNumbers(html)
 
 	# title & date header
