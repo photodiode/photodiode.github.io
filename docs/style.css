@@ -3,6 +3,7 @@
 	--bgc: #2a3332;
 	--fgc: #cdd2c8;
 	--hlc: #e3c06d;
+	--red: #df4f5c;
 	--htc: #a9bba470;
 
 	--width:     64ch;
@@ -100,7 +101,7 @@ ol {
 	list-style: none;
 }
 
-li {
+ol li {
 	margin-bottom: 0.5em;
 	display: flex;
 	align-items: baseline;
@@ -110,6 +111,11 @@ li {
 ol a {
 	width: 100%;
 	font-weight: bold;
+}
+
+ul {
+	margin: 0.5em 0 1em 0;
+	padding-left: 3ch;
 }
 /* ---- */
 
@@ -121,6 +127,11 @@ article h1 {
 
 h2 {
 	margin: 1rem 0;
+}
+
+h3 {
+	margin: 0.5rem 0;
+	font-size: 1em;
 }
 
 time {
@@ -149,19 +160,20 @@ pre code {
 pre code line::before {
 	counter-increment: line;
 	content: counter(line);
-	width: 2ch;
-	padding-right: 2ch;
+	width: 3ch;
+	padding-right: 3ch;
 	display: inline-block;
 	color: var(--htc);
 	text-align: right;
 }
 
 code .o, code .p, code .kt {
+	color: var(--hlc);
 	font-weight: bold;
 }
 
-code .mi, code .mh, code .mf, code .s, code .k {
-	color: var(--hlc);
+code .mi, code .mh, code .mf, code .s, code .k, code .kr {
+	color: var(--red);
 	font-weight: bold;
 }
 
