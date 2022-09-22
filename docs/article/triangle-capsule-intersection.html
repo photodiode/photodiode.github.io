@@ -29,7 +29,7 @@
 <li>Check if we intersect this plane</li>
 <li>If an intersection point is found check if the point is outside the triangle (as projected onto the moved plane)</li>
 <li><strong>If outside:</strong></li>
-<li>Find the closes edge to the capsule</li>
+<li>Find the closest edge to the capsule</li>
 <li>Perform a ray / capsule intersect test</li>
 <li>If it intersected calculate the capsule hit normal</li>
 <li><strong>If inside:</strong></li>
@@ -38,143 +38,143 @@
 <p>The functions <a href="https://www.iquilezles.org/www/articles/intersectors/intersectors.htm"><code>ray_capsule_intersect</code></a>, <a href="https://www.iquilezles.org/www/articles/distfunctions/distfunctions.htm"><code>point_line_distance</code></a> and <code>capsule_normal</code> are all taken from <a href="https://www.iquilezles.org/">iquilezles.org</a>.</p>
 <p>I hope this helps anyone searching for the same as I did.</p>
 <h3>The code</h3>
-<pre><code><line><span class="k">static</span><span class="w"> </span><span class="kr">inline</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="nf">point_line_distance</span><span class="p">(</span><span class="n">v3f</span><span class="w"> </span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="n">v3f</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">v3f</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span></line>
-<line></line>
-<line><span class="w">        </span><span class="n">v3f</span><span class="w"> </span><span class="n">pa</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">v3f_sub</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">);</span><span class="w"></span></line>
-<line><span class="w">        </span><span class="n">v3f</span><span class="w"> </span><span class="n">ba</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">v3f_sub</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">);</span><span class="w"></span></line>
-<line></line>
-<line><span class="w">        </span><span class="kt">float</span><span class="w"> </span><span class="n">h</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">v3f_dot</span><span class="p">(</span><span class="n">pa</span><span class="p">,</span><span class="w"> </span><span class="n">ba</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">v3f_dot</span><span class="p">(</span><span class="n">ba</span><span class="p">,</span><span class="w"> </span><span class="n">ba</span><span class="p">);</span><span class="w"></span></line>
-<line><span class="w">              </span><span class="n">h</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fminf</span><span class="p">(</span><span class="n">fmaxf</span><span class="p">(</span><span class="n">h</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">),</span><span class="w"> </span><span class="mf">1.0f</span><span class="p">);</span><span class="w"></span></line>
-<line></line>
-<line><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">v3f_len</span><span class="p">(</span><span class="n">v3f_sub</span><span class="p">(</span><span class="n">pa</span><span class="p">,</span><span class="w"> </span><span class="n">v3f_scale</span><span class="p">(</span><span class="n">ba</span><span class="p">,</span><span class="w"> </span><span class="n">h</span><span class="p">)));</span><span class="w"></span></line>
-<line><span class="p">}</span><span class="w"></span></line>
-<line></line>
-<line></line>
-<line><span class="k">static</span><span class="w"> </span><span class="kr">inline</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="nf">ray_capsule_intersect</span><span class="p">(</span><span class="n">v3f</span><span class="w"> </span><span class="n">ro</span><span class="p">,</span><span class="w"> </span><span class="n">v3f</span><span class="w"> </span><span class="n">rd</span><span class="p">,</span><span class="w"> </span><span class="n">v3f</span><span class="w"> </span><span class="n">pa</span><span class="p">,</span><span class="w"> </span><span class="n">v3f</span><span class="w"> </span><span class="n">pb</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">ra</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="o">*</span><span class="w"> </span><span class="n">distance</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span></line>
-<line></line>
-<line><span class="w">        </span><span class="n">v3f</span><span class="w"> </span><span class="n">ba</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">v3f_sub</span><span class="p">(</span><span class="n">pb</span><span class="p">,</span><span class="w"> </span><span class="n">pa</span><span class="p">);</span><span class="w"></span></line>
-<line><span class="w">        </span><span class="n">v3f</span><span class="w"> </span><span class="n">oa</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">v3f_sub</span><span class="p">(</span><span class="n">ro</span><span class="p">,</span><span class="w"> </span><span class="n">pa</span><span class="p">);</span><span class="w"></span></line>
-<line></line>
-<line><span class="w">        </span><span class="kt">float</span><span class="w"> </span><span class="n">baba</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">v3f_dot</span><span class="p">(</span><span class="n">ba</span><span class="p">,</span><span class="w"> </span><span class="n">ba</span><span class="p">);</span><span class="w"></span></line>
-<line><span class="w">        </span><span class="kt">float</span><span class="w"> </span><span class="n">bard</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">v3f_dot</span><span class="p">(</span><span class="n">ba</span><span class="p">,</span><span class="w"> </span><span class="n">rd</span><span class="p">);</span><span class="w"></span></line>
-<line><span class="w">        </span><span class="kt">float</span><span class="w"> </span><span class="n">baoa</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">v3f_dot</span><span class="p">(</span><span class="n">ba</span><span class="p">,</span><span class="w"> </span><span class="n">oa</span><span class="p">);</span><span class="w"></span></line>
-<line><span class="w">        </span><span class="kt">float</span><span class="w"> </span><span class="n">rdoa</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">v3f_dot</span><span class="p">(</span><span class="n">rd</span><span class="p">,</span><span class="w"> </span><span class="n">oa</span><span class="p">);</span><span class="w"></span></line>
-<line><span class="w">        </span><span class="kt">float</span><span class="w"> </span><span class="n">oaoa</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">v3f_dot</span><span class="p">(</span><span class="n">oa</span><span class="p">,</span><span class="w"> </span><span class="n">oa</span><span class="p">);</span><span class="w"></span></line>
-<line></line>
-<line><span class="w">        </span><span class="kt">float</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">baba</span><span class="w">      </span><span class="o">-</span><span class="w"> </span><span class="n">bard</span><span class="o">*</span><span class="n">bard</span><span class="p">;</span><span class="w"></span></line>
-<line><span class="w">        </span><span class="kt">float</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">baba</span><span class="o">*</span><span class="n">rdoa</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">baoa</span><span class="o">*</span><span class="n">bard</span><span class="p">;</span><span class="w"></span></line>
-<line><span class="w">        </span><span class="kt">float</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">baba</span><span class="o">*</span><span class="n">oaoa</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">baoa</span><span class="o">*</span><span class="n">baoa</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">ra</span><span class="o">*</span><span class="n">ra</span><span class="o">*</span><span class="n">baba</span><span class="p">;</span><span class="w"></span></line>
-<line><span class="w">        </span><span class="kt">float</span><span class="w"> </span><span class="n">h</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b</span><span class="o">*</span><span class="n">b</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">a</span><span class="o">*</span><span class="n">c</span><span class="p">;</span><span class="w"></span></line>
-<line></line>
-<line><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">h</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span></line>
-<line><span class="w">                </span><span class="kt">float</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="o">-</span><span class="n">b</span><span class="o">-</span><span class="n">sqrt</span><span class="p">(</span><span class="n">h</span><span class="p">))</span><span class="o">/</span><span class="n">a</span><span class="p">;</span><span class="w"></span></line>
-<line><span class="w">                </span><span class="kt">float</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">baoa</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">t</span><span class="o">*</span><span class="n">bard</span><span class="p">;</span><span class="w"></span></line>
-<line></line>
-<line><span class="w">                </span><span class="c1">// body</span></line>
-<line><span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">y</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mf">0.0f</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">baba</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span></line>
-<line><span class="w">                        </span><span class="o">*</span><span class="n">distance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">t</span><span class="p">;</span><span class="w"></span></line>
-<line><span class="w">                        </span><span class="k">return</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span><span class="w"></span></line>
-<line><span class="w">                </span><span class="p">}</span><span class="w"></span></line>
-<line></line>
-<line><span class="w">                </span><span class="c1">// caps</span></line>
-<line><span class="w">                </span><span class="n">v3f</span><span class="w"> </span><span class="n">oc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">y</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mf">0.0</span><span class="p">)</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="nl">oa</span> <span class="p">:</span><span class="w"> </span><span class="n">v3f_sub</span><span class="p">(</span><span class="n">ro</span><span class="p">,</span><span class="w"> </span><span class="n">pb</span><span class="p">);</span><span class="w"></span></line>
-<line></line>
-<line><span class="w">                </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">v3f_dot</span><span class="p">(</span><span class="n">rd</span><span class="p">,</span><span class="w"> </span><span class="n">oc</span><span class="p">);</span><span class="w"></span></line>
-<line><span class="w">                </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">v3f_dot</span><span class="p">(</span><span class="n">oc</span><span class="p">,</span><span class="w"> </span><span class="n">oc</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">ra</span><span class="o">*</span><span class="n">ra</span><span class="p">;</span><span class="w"></span></line>
-<line><span class="w">                </span><span class="n">h</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b</span><span class="o">*</span><span class="n">b</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">c</span><span class="p">;</span><span class="w"></span></line>
-<line></line>
-<line><span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">h</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span></line>
-<line><span class="w">                        </span><span class="o">*</span><span class="n">distance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">b</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">sqrtf</span><span class="p">(</span><span class="n">h</span><span class="p">);</span><span class="w"></span></line>
-<line><span class="w">                        </span><span class="k">return</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span><span class="w"></span></line>
-<line><span class="w">                </span><span class="p">}</span><span class="w"></span></line>
-<line><span class="w">        </span><span class="p">}</span><span class="w"></span></line>
-<line><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span><span class="w"></span></line>
-<line><span class="p">}</span><span class="w"></span></line>
-<line></line>
-<line></line>
-<line><span class="k">static</span><span class="w"> </span><span class="kr">inline</span><span class="w"> </span><span class="n">v3f</span><span class="w"> </span><span class="nf">capsule_normal</span><span class="p">(</span><span class="n">v3f</span><span class="w"> </span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="n">v3f</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">v3f</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">r</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span></line>
-<line></line>
-<line><span class="w">        </span><span class="n">v3f</span><span class="w"> </span><span class="n">ba</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">v3f_sub</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">);</span><span class="w"></span></line>
-<line><span class="w">        </span><span class="n">v3f</span><span class="w"> </span><span class="n">pa</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">v3f_sub</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">);</span><span class="w"></span></line>
-<line></line>
-<line><span class="w">        </span><span class="kt">float</span><span class="w"> </span><span class="n">h</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">v3f_dot</span><span class="p">(</span><span class="n">pa</span><span class="p">,</span><span class="w"> </span><span class="n">ba</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">v3f_dot</span><span class="p">(</span><span class="n">ba</span><span class="p">,</span><span class="w"> </span><span class="n">ba</span><span class="p">);</span><span class="w"></span></line>
-<line><span class="w">              </span><span class="n">h</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fminf</span><span class="p">(</span><span class="n">fmaxf</span><span class="p">(</span><span class="n">h</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">),</span><span class="w"> </span><span class="mf">1.0f</span><span class="p">);</span><span class="w"></span></line>
-<line></line>
-<line><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">v3f_divs</span><span class="p">(</span><span class="n">v3f_sub</span><span class="p">(</span><span class="n">pa</span><span class="p">,</span><span class="w"> </span><span class="n">v3f_scale</span><span class="p">(</span><span class="n">ba</span><span class="p">,</span><span class="w"> </span><span class="n">h</span><span class="p">)),</span><span class="w"> </span><span class="n">r</span><span class="p">);</span><span class="w"></span></line>
-<line><span class="p">}</span><span class="w"></span></line>
-<line></line>
-<line></line>
-<line><span class="kt">bool</span><span class="w"> </span><span class="nf">ssv_triangle_intersect</span><span class="p">(</span><span class="n">v3f</span><span class="w"> </span><span class="n">origin</span><span class="p">,</span><span class="w"> </span><span class="n">v3f</span><span class="w"> </span><span class="n">velocity</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">radius</span><span class="p">,</span><span class="w"> </span><span class="n">v3f</span><span class="w"> </span><span class="n">v0</span><span class="p">,</span><span class="w"> </span><span class="n">v3f</span><span class="w"> </span><span class="n">v1</span><span class="p">,</span><span class="w"> </span><span class="n">v3f</span><span class="w"> </span><span class="n">v2</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="o">*</span><span class="n">distance</span><span class="p">,</span><span class="w"> </span><span class="n">v3f</span><span class="w"> </span><span class="o">*</span><span class="n">hit_point</span><span class="p">,</span><span class="w"> </span><span class="n">v3f</span><span class="w"> </span><span class="o">*</span><span class="n">hit_normal</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span></line>
-<line></line>
-<line><span class="w">        </span><span class="c1">// plane normal</span></line>
-<line><span class="w">        </span><span class="n">v3f</span><span class="w"> </span><span class="n">e0</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">v3f_sub</span><span class="p">(</span><span class="n">v1</span><span class="p">,</span><span class="w"> </span><span class="n">v0</span><span class="p">);</span><span class="w"></span></line>
-<line><span class="w">        </span><span class="n">v3f</span><span class="w"> </span><span class="n">e1</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">v3f_sub</span><span class="p">(</span><span class="n">v2</span><span class="p">,</span><span class="w"> </span><span class="n">v0</span><span class="p">);</span><span class="w"></span></line>
-<line><span class="w">        </span><span class="n">v3f</span><span class="w"> </span><span class="n">e0e1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">v3f_cross</span><span class="p">(</span><span class="n">e0</span><span class="p">,</span><span class="w"> </span><span class="n">e1</span><span class="p">);</span><span class="w"></span></line>
-<line><span class="w">        </span><span class="n">v3f</span><span class="w"> </span><span class="n">pn</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">v3f_normalize</span><span class="p">(</span><span class="n">e0e1</span><span class="p">);</span><span class="w"></span></line>
-<line><span class="w">        </span><span class="c1">// ----</span></line>
-<line></line>
-<line><span class="w">        </span><span class="kt">float</span><span class="w"> </span><span class="n">cap_len</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="n">v3f_len</span><span class="p">(</span><span class="n">velocity</span><span class="p">);</span><span class="w"></span></line>
-<line><span class="w">        </span><span class="n">v3f</span><span class="w">   </span><span class="n">cap_normal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">v3f_normalize</span><span class="p">(</span><span class="n">velocity</span><span class="p">);</span><span class="w"></span></line>
-<line></line>
-<line><span class="w">        </span><span class="kt">float</span><span class="w"> </span><span class="n">denom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">v3f_dot</span><span class="p">(</span><span class="n">pn</span><span class="p">,</span><span class="w"> </span><span class="n">cap_normal</span><span class="p">);</span><span class="w"></span></line>
-<line><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">fabsf</span><span class="p">(</span><span class="n">denom</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">0.00001f</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span><span class="w"></span></line>
-<line></line>
-<line><span class="w">        </span><span class="c1">// grow plane thickness by radius towards origin</span></line>
-<line><span class="w">        </span><span class="kt">float</span><span class="w"> </span><span class="n">r</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">denom</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">)</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="nl">radius</span> <span class="p">:</span><span class="w"> </span><span class="o">-</span><span class="n">radius</span><span class="p">;</span><span class="w"></span></line>
-<line><span class="w">        </span><span class="n">v3f</span><span class="w">   </span><span class="n">po</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">v3f_add</span><span class="p">(</span><span class="n">v0</span><span class="p">,</span><span class="w"> </span><span class="n">v3f_scale</span><span class="p">(</span><span class="n">pn</span><span class="p">,</span><span class="w"> </span><span class="n">r</span><span class="p">));</span><span class="w"></span></line>
-<line><span class="w">        </span><span class="c1">// ----</span></line>
-<line></line>
-<line><span class="w">        </span><span class="c1">// find intersection point</span></line>
-<line><span class="w">        </span><span class="kt">float</span><span class="w"> </span><span class="n">u</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">v3f_dot</span><span class="p">(</span><span class="n">pn</span><span class="p">,</span><span class="w"> </span><span class="n">v3f_sub</span><span class="p">(</span><span class="n">po</span><span class="p">,</span><span class="w"> </span><span class="n">origin</span><span class="p">))</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">denom</span><span class="p">;</span><span class="w"></span></line>
-<line><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">u</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">cap_len</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span><span class="w"></span></line>
-<line><span class="w">        </span><span class="n">v3f</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">v3f_add</span><span class="p">(</span><span class="n">origin</span><span class="p">,</span><span class="w"> </span><span class="n">v3f_scale</span><span class="p">(</span><span class="n">cap_normal</span><span class="p">,</span><span class="w"> </span><span class="n">u</span><span class="p">));</span><span class="w"></span></line>
-<line><span class="w">        </span><span class="c1">// ----</span></line>
-<line></line>
-<line><span class="w">        </span><span class="c1">// is projected point outside triangle</span></line>
-<line><span class="w">        </span><span class="kt">bool</span><span class="w"> </span><span class="n">outside</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span><span class="w"></span></line>
-<line></line>
-<line><span class="w">        </span><span class="n">v3f</span><span class="w">   </span><span class="n">w</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">v3f_sub</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="n">v0</span><span class="p">);</span><span class="w"></span></line>
-<line><span class="w">        </span><span class="kt">float</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">v3f_dot</span><span class="p">(</span><span class="n">v3f_cross</span><span class="p">(</span><span class="n">e0</span><span class="p">,</span><span class="w"> </span><span class="n">w</span><span class="p">),</span><span class="w"> </span><span class="n">e0e1</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">v3f_norm2</span><span class="p">(</span><span class="n">e0e1</span><span class="p">);</span><span class="w"> </span><span class="c1">// γ=[(u×w)⋅n]/n²</span></line>
-<line><span class="w">        </span><span class="kt">float</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">v3f_dot</span><span class="p">(</span><span class="n">v3f_cross</span><span class="p">(</span><span class="n">w</span><span class="p">,</span><span class="w"> </span><span class="n">e1</span><span class="p">),</span><span class="w"> </span><span class="n">e0e1</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">v3f_norm2</span><span class="p">(</span><span class="n">e0e1</span><span class="p">);</span><span class="w"> </span><span class="c1">// β=[(w×v)⋅n]/n²</span></line>
-<line><span class="w">        </span><span class="kt">float</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0f</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">b</span><span class="p">;</span><span class="w"></span></line>
-<line></line>
-<line><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">((</span><span class="mf">0.0f</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">a</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="p">(</span><span class="n">a</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mf">1.0f</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"></span></line>
-<line><span class="w">            </span><span class="p">(</span><span class="mf">0.0f</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="p">(</span><span class="n">b</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mf">1.0f</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"></span></line>
-<line><span class="w">            </span><span class="p">(</span><span class="mf">0.0f</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">y</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="p">(</span><span class="n">y</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mf">1.0f</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="w"></span></line>
-<line><span class="w">                </span><span class="n">outside</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span><span class="w"></span></line>
-<line><span class="w">        </span><span class="p">}</span><span class="w"></span></line>
-<line><span class="w">        </span><span class="c1">// ----</span></line>
-<line></line>
-<line><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">outside</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span></line>
-<line><span class="w">                </span><span class="c1">// find closest edge</span></line>
-<line><span class="w">                </span><span class="kt">float</span><span class="w"> </span><span class="n">d1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">point_line_distance</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="n">v0</span><span class="p">,</span><span class="w"> </span><span class="n">v1</span><span class="p">);</span><span class="w"></span></line>
-<line><span class="w">                </span><span class="kt">float</span><span class="w"> </span><span class="n">d2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">point_line_distance</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="n">v1</span><span class="p">,</span><span class="w"> </span><span class="n">v2</span><span class="p">);</span><span class="w"></span></line>
-<line><span class="w">                </span><span class="kt">float</span><span class="w"> </span><span class="n">d3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">point_line_distance</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="n">v2</span><span class="p">,</span><span class="w"> </span><span class="n">v0</span><span class="p">);</span><span class="w"></span></line>
-<line></line>
-<line><span class="w">                </span><span class="n">v3f</span><span class="w"> </span><span class="n">va</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">v0</span><span class="p">;</span><span class="w"></span></line>
-<line><span class="w">                </span><span class="n">v3f</span><span class="w"> </span><span class="n">vb</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">v1</span><span class="p">;</span><span class="w"></span></line>
-<line></line>
-<line><span class="w">                </span><span class="kt">float</span><span class="w"> </span><span class="n">dt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">d1</span><span class="p">;</span><span class="w"></span></line>
-<line></line>
-<line><span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">d2</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">dt</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">dt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">d2</span><span class="p">;</span><span class="w">  </span><span class="n">va</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">v1</span><span class="p">;</span><span class="w">  </span><span class="n">vb</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">v2</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w"></span></line>
-<line><span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">d3</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">dt</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">           </span><span class="n">va</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">v2</span><span class="p">;</span><span class="w">  </span><span class="n">vb</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">v0</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w"></span></line>
-<line><span class="w">                </span><span class="c1">// ----</span></line>
-<line></line>
-<line><span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">ray_capsule_intersect</span><span class="p">(</span><span class="n">origin</span><span class="p">,</span><span class="w"> </span><span class="n">cap_normal</span><span class="p">,</span><span class="w"> </span><span class="n">va</span><span class="p">,</span><span class="w"> </span><span class="n">vb</span><span class="p">,</span><span class="w"> </span><span class="n">radius</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">u</span><span class="p">))</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span><span class="w"></span></line>
-<line><span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">u</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">cap_len</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span><span class="w"></span></line>
-<line></line>
-<line><span class="w">                </span><span class="n">p</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">v3f_add</span><span class="p">(</span><span class="n">origin</span><span class="p">,</span><span class="w"> </span><span class="n">v3f_scale</span><span class="p">(</span><span class="n">cap_normal</span><span class="p">,</span><span class="w"> </span><span class="n">u</span><span class="p">));</span><span class="w"></span></line>
-<line><span class="w">                </span><span class="n">pn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">capsule_normal</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="n">va</span><span class="p">,</span><span class="w"> </span><span class="n">vb</span><span class="p">,</span><span class="w"> </span><span class="n">radius</span><span class="p">);</span><span class="w"></span></line>
-<line><span class="w">        </span><span class="p">}</span><span class="w"></span></line>
-<line></line>
-<line><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">u</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span><span class="w"></span></line>
-<line></line>
-<line><span class="w">        </span><span class="o">*</span><span class="n">distance</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">u</span><span class="p">;</span><span class="w"></span></line>
-<line><span class="w">        </span><span class="o">*</span><span class="n">hit_point</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">p</span><span class="p">;</span><span class="w"></span></line>
-<line><span class="w">        </span><span class="o">*</span><span class="n">hit_normal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pn</span><span class="p">;</span><span class="w"></span></line>
-<line></line>
-<line><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span><span class="w"></span></line>
-<line><span class="p">}</span><span class="w"></span></line>
+<pre class="code"><code class="language-c">static inline float point_line_distance(v3f p, v3f a, v3f b) {
+
+        v3f pa = v3f_sub(p, a);
+        v3f ba = v3f_sub(b, a);
+
+        float h = v3f_dot(pa, ba) / v3f_dot(ba, ba);
+              h = fminf(fmaxf(h, 0.0f), 1.0f);
+
+        return v3f_len(v3f_sub(pa, v3f_scale(ba, h)));
+}
+
+
+static inline bool ray_capsule_intersect(v3f ro, v3f rd, v3f pa, v3f pb, float ra, float* distance) {
+
+        v3f ba = v3f_sub(pb, pa);
+        v3f oa = v3f_sub(ro, pa);
+
+        float baba = v3f_dot(ba, ba);
+        float bard = v3f_dot(ba, rd);
+        float baoa = v3f_dot(ba, oa);
+        float rdoa = v3f_dot(rd, oa);
+        float oaoa = v3f_dot(oa, oa);
+
+        float a = baba      - bard*bard;
+        float b = baba*rdoa - baoa*bard;
+        float c = baba*oaoa - baoa*baoa - ra*ra*baba;
+        float h = b*b - a*c;
+
+        if (h &gt;= 0.0f) {
+                float t = (-b-sqrt(h))/a;
+                float y = baoa + t*bard;
+
+                // body
+                if (y &gt; 0.0f &amp;&amp; y &lt; baba) {
+                        *distance = t;
+                        return true;
+                }
+
+                // caps
+                v3f oc = (y &lt;= 0.0) ? oa : v3f_sub(ro, pb);
+
+                b = v3f_dot(rd, oc);
+                c = v3f_dot(oc, oc) - ra*ra;
+                h = b*b - c;
+
+                if (h &gt; 0.0f) {
+                        *distance = -b - sqrtf(h);
+                        return true;
+                }
+        }
+        return false;
+}
+
+
+static inline v3f capsule_normal(v3f p, v3f a, v3f b, float r) {
+
+        v3f ba = v3f_sub(b, a);
+        v3f pa = v3f_sub(p, a);
+
+        float h = v3f_dot(pa, ba) / v3f_dot(ba, ba);
+              h = fminf(fmaxf(h, 0.0f), 1.0f);
+
+        return v3f_divs(v3f_sub(pa, v3f_scale(ba, h)), r);
+}
+
+
+bool ssv_triangle_intersect(v3f origin, v3f velocity, float radius, v3f v0, v3f v1, v3f v2, float *distance, v3f *hit_point, v3f *hit_normal) {
+
+        // plane normal
+        v3f e0   = v3f_sub(v1, v0);
+        v3f e1   = v3f_sub(v2, v0);
+        v3f e0e1 = v3f_cross(e0, e1);
+        v3f pn   = v3f_normalize(e0e1);
+        // ----
+
+        float cap_len    = v3f_len(velocity);
+        v3f   cap_normal = v3f_normalize(velocity);
+
+        float denom = v3f_dot(pn, cap_normal);
+        if (fabsf(denom) &lt; 0.00001f) return false;
+
+        // grow plane thickness by radius towards origin
+        float r  = (denom &lt; 0.0f) ? radius : -radius;
+        v3f   po = v3f_add(v0, v3f_scale(pn, r));
+        // ----
+
+        // find intersection point
+        float u = v3f_dot(pn, v3f_sub(po, origin)) / denom;
+        if (u &gt; cap_len) return false;
+        v3f p = v3f_add(origin, v3f_scale(cap_normal, u));
+        // ----
+
+        // is projected point outside triangle
+        bool outside = true;
+
+        v3f   w = v3f_sub(p, v0);
+        float y = v3f_dot(v3f_cross(e0, w), e0e1) / v3f_norm2(e0e1); // γ=[(u×w)⋅n]/n²
+        float b = v3f_dot(v3f_cross(w, e1), e0e1) / v3f_norm2(e0e1); // β=[(w×v)⋅n]/n²
+        float a = 1.0f - y - b;
+
+        if ((0.0f &lt;= a) &amp;&amp; (a &lt;= 1.0f) &amp;&amp;
+            (0.0f &lt;= b) &amp;&amp; (b &lt;= 1.0f) &amp;&amp;
+            (0.0f &lt;= y) &amp;&amp; (y &lt;= 1.0f)) {
+                outside = false;
+        }
+        // ----
+
+        if (outside) {
+                // find closest edge
+                float d1 = point_line_distance(p, v0, v1);
+                float d2 = point_line_distance(p, v1, v2);
+                float d3 = point_line_distance(p, v2, v0);
+
+                v3f va = v0;
+                v3f vb = v1;
+
+                float dt = d1;
+
+                if (d2 &lt; dt) { dt = d2;  va = v1;  vb = v2; }
+                if (d3 &lt; dt) {           va = v2;  vb = v0; }
+                // ----
+
+                if (!ray_capsule_intersect(origin, cap_normal, va, vb, radius, &amp;u)) return false;
+                if (u &gt; cap_len) return false;
+
+                p  = v3f_add(origin, v3f_scale(cap_normal, u));
+                pn = capsule_normal(p, va, vb, radius);
+        }
+
+        if (u &lt; 0.0f) return false;
+
+        *distance   = u;
+        *hit_point  = p;
+        *hit_normal = pn;
+
+        return true;
+}
 </code></pre>
 
 </article>
@@ -182,8 +182,9 @@
 		<footer>
 			<section id="links">
 				<a href="https://github.com/photodiode" target="_blank" class="github">github.com/photodiode</a>
+				<a href="https://photodiode.itch.io" target="_blank" class="itchio">photodiode.itch.io</a>
 				<a href="https://twitter.com/pinphotodiode" target="_blank" class="twitter">twitter.com/pinphotodiode</a>
-				<a href="https://addons.mozilla.org/en-US/firefox/addon/panorama-view/" target="_blank" class="firefox">Firefox Addon</a>
+				<a href="https://addons.mozilla.org/en-US/firefox/addon/panorama-view" target="_blank" class="firefox">Firefox Addon</a>
 			</section>
 		</footer>
 	</body>

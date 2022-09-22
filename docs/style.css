@@ -93,6 +93,7 @@ footer {
 #links .github  {-webkit-mask-image: url(gfx/github.svg);  mask-image: url(gfx/github.svg);}
 #links .twitter {-webkit-mask-image: url(gfx/twitter.svg); mask-image: url(gfx/twitter.svg);}
 #links .firefox {-webkit-mask-image: url(gfx/firefox.svg); mask-image: url(gfx/firefox.svg);}
+#links .itchio  {-webkit-mask-image: url(gfx/itchio.svg);  mask-image: url(gfx/itchio.svg);}
 /* ---- */
 
 /* list */
